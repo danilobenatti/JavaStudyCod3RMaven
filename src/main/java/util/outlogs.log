@@ -1,0 +1,6 @@
+[ERROR] 2024-03-11 11:25:11.260 [main] BasicExceptionTest - Error: print student: Cannot invoke "model.Student.getName()" because "student" is null
+[ERROR] 2024-03-11 11:25:11.263 [main] BasicExceptionTest - Error: division by zero: / by zero
+[INFO ] 2024-03-11 11:25:11.263 [main] BasicExceptionTest - End! End! End! End! End! 
+[INFO ] 2024-03-11 11:25:21.081 [main] FtpFileUpload - FTP server successfully connect: 211 https://www.pureftpd.org/
+
+[INFO ] 2024-03-11 11:25:21.696 [main] FtpFileUpload - File is uploaded successfully.

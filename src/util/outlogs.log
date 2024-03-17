@@ -1,0 +1,28 @@
+[INFO ] 2024-03-17 11:24:17.235 [main] AverageTest - 7.5
+[INFO ] 2024-03-17 11:24:17.237 [main] AverageTest - 7.75
+[INFO ] 2024-03-17 11:24:17.237 [main] AverageTest - 7.625
+[INFO ] 2024-03-17 11:24:45.829 [main] StructureIfElse - Inform final note: 
+[INFO ] 2024-03-17 11:25:01.339 [main] StructureIfElse - Inform final note: 
+[INFO ] 2024-03-17 11:25:06.494 [main] StructureIfElse - 8.9
+[INFO ] 2024-03-17 11:25:06.495 [main] StructureIfElse - Approved
+[INFO ] 2024-03-17 11:25:06.495 [main] StructureIfElse - Approved: B
+[INFO ] 2024-03-17 11:25:30.412 [main] StructureWhile - 1
+[INFO ] 2024-03-17 11:25:30.414 [main] StructureWhile - Loop 304 times until finding nº 25
+[INFO ] 2024-03-17 11:25:30.415 [main] StructureWhile - Loop 125 times until finding nº 25
+[INFO ] 2024-03-17 11:25:30.418 [main] StructureWhile - Random[0 - 100]: 31
+[INFO ] 2024-03-17 11:25:30.418 [main] StructureWhile - 8
+[INFO ] 2024-03-17 11:25:30.418 [main] StructureWhile - false
+[INFO ] 2024-03-17 11:25:30.418 [main] StructureWhile - #
+[INFO ] 2024-03-17 11:25:30.418 [main] StructureWhile - ##
+[INFO ] 2024-03-17 11:25:30.418 [main] StructureWhile - ###
+[INFO ] 2024-03-17 11:25:30.418 [main] StructureWhile - ####
+[INFO ] 2024-03-17 11:25:30.419 [main] StructureWhile - #####
+[INFO ] 2024-03-17 11:25:46.463 [main] ArrayListCode - true
+[INFO ] 2024-03-17 11:25:46.471 [main] ArrayListCode - Product [name=Product Test 1, price=10.5, discount=0.1, shippingCost=0.0, weight=5.0, sides=[5.0, 4.0, 3.0], manufactureDate=2024-03-17, validityDate=2025-03-17, validityDateIsOk=true]
+[INFO ] 2024-03-17 11:25:46.471 [main] ArrayListCode - Product [name=Product Test 2, price=15.5, discount=0.1, shippingCost=0.0, weight=7.5, sides=[7.0, 8.0, 9.0], manufactureDate=2022-03-17, validityDate=2024-03-17, validityDateIsOk=true]
+[INFO ] 2024-03-17 11:25:46.472 [main] ArrayListCode - Product [name=Product Test 3, price=15.5, discount=0.1, shippingCost=0.0, weight=7.5, sides=[9.0, 5.0, 2.0], manufactureDate=2022-03-17, validityDate=2023-03-17, validityDateIsOk=false]
+[INFO ] 2024-03-17 11:25:46.472 [main] ArrayListCode - true
+[INFO ] 2024-03-17 11:25:46.473 [main] ArrayListCode - Product [name=Product Test 2, price=15.5, discount=0.1, shippingCost=0.0, weight=7.5, sides=[7.0, 8.0, 9.0], manufactureDate=2022-03-17, validityDate=2024-03-17, validityDateIsOk=true]
+[INFO ] 2024-03-17 11:25:46.473 [main] ArrayListCode - Product [name=Product Test 3, price=15.5, discount=0.1, shippingCost=0.0, weight=7.5, sides=[9.0, 5.0, 2.0], manufactureDate=2022-03-17, validityDate=2023-03-17, validityDateIsOk=false]
+[INFO ] 2024-03-17 11:25:46.473 [main] ArrayListCode - 
+Product [name=Product Test 2, price=15.5, discount=0.1, shippingCost=0.0, weight=7.5, sides=[7.0, 8.0, 9.0], manufactureDate=2022-03-17, validityDate=2024-03-17, validityDateIsOk=true]
