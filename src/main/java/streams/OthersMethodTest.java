@@ -28,23 +28,23 @@ public class OthersMethodTest {
 		list.add("Gel");
 		list.add("Bar");
 		
-		list.stream().forEach(l -> log.info(l));
+		list.stream().forEach(log::info);
 		log.info("--- <0> ---\n");
 		
-		list.stream().distinct().forEach(l -> log.info(l));
+		list.stream().distinct().forEach(log::info);
 		log.info("--- <1> ---\n");
 		
-		list.stream().distinct().skip(2).forEach(l -> log.info(l));
+		list.stream().distinct().skip(2).forEach(log::info);
 		log.info("--- <2> ---\n");
 		
-		list.stream().distinct().limit(2).skip(1).forEach(l -> log.info(l));
+		list.stream().distinct().limit(2).skip(1).forEach(log::info);
 		log.info("--- <3> ---\n");
 		
-		list.stream().distinct().skip(2).limit(1).forEach(l -> log.info(l));
+		list.stream().distinct().skip(2).limit(1).forEach(log::info);
 		log.info("--- <4> ---\n");
 		
 		Predicate<String> predicate = l -> l.charAt(0) != 'Y';
-		list.stream().distinct().takeWhile(predicate).forEach(l -> log.info(l));
+		list.stream().distinct().takeWhile(predicate).forEach(log::info);
 		log.info("--- <5> ---\n");
 	}
 	

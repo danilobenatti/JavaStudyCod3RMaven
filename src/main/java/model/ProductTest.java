@@ -29,7 +29,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 public class ProductTest {
 	
-	static Logger logger = LogManager.getLogger();
+	static Logger log = LogManager.getLogger();
 	
 	static final Locale LOCALE = Locale.of("pt", "BR");
 	static final ZoneId ZONE_ID = ZoneId.of("America/Sao_Paulo");
@@ -67,14 +67,14 @@ public class ProductTest {
 		p3.setValidity(Year.of(1)); // 1 year
 		p3.setDiscount(0.25);
 		
-		logger.info(p1);
-		logger.info(p2);
-		logger.info(p3);
+		log.info(p1);
+		log.info(p2);
+		log.info(p3);
 		
 		String msg = "{}: {}";
-		logger.log(Level.INFO, msg, p1.name, p1);
-		logger.log(Level.INFO, msg, p2.name, p2);
-		logger.log(Level.INFO, msg, p3.name, p3);
+		log.log(Level.INFO, msg, p1.name, p1);
+		log.log(Level.INFO, msg, p2.name, p2);
+		log.log(Level.INFO, msg, p3.name, p3);
 		
 		List<Double> shoppingCart = new ArrayList<>();
 		shoppingCart.add(p1.getPriceWithDiscount());
@@ -83,51 +83,51 @@ public class ProductTest {
 		shoppingCart.add(p3.getPriceWithDiscount());
 		
 		double total = shoppingCart.stream().mapToDouble(i -> i).sum();
-		logger.info("{}".concat(LF), () -> getCurrencyInstance().format(total));
+		log.info("{}".concat(LF), () -> getCurrencyInstance().format(total));
 		
-		logger.info(() -> Instant.now().atZone(ZONE_ID));
-		logger.info("{}".concat(LF), () -> df.format(Date.from(Instant.now())));
+		log.info(() -> Instant.now().atZone(ZONE_ID));
+		log.info("{}".concat(LF), () -> df.format(Date.from(Instant.now())));
 		
 		nf.setMaximumFractionDigits(2);
 		nf.setRoundingMode(RoundingMode.HALF_EVEN);
 		
-		logger.info(() -> String.format("Volume p1: %s%c",
+		log.info(() -> String.format("Volume p1: %s%c",
 				nf.format(p1.getCubicVolume()), Character.valueOf('\u33A4')));
-		logger.info(() -> String.format("Volume p1: %.2f%s",
+		log.info(() -> String.format("Volume p1: %.2f%s",
 				p1.getCubicVolume(), CharUtils.toString('\u33A4')));
-		logger.info(() -> String.format("Weight p1: %.2f%s", p1.weight,
+		log.info(() -> String.format("Weight p1: %.2f%s", p1.weight,
 				CharUtils.toString('\u338F')));
 		
 		String msgFactureP1 = "Facture p1: {}";
-		logger.info(msgFactureP1, p1.manufactureDate.toInstant());
-		logger.info(msgFactureP1, p1.manufactureDate);
-		logger.info(msgFactureP1, () -> dateFormatted(p1.manufactureDate));
+		log.info(msgFactureP1, p1.manufactureDate.toInstant());
+		log.info(msgFactureP1, p1.manufactureDate);
+		log.info(msgFactureP1, () -> dateFormatted(p1.manufactureDate));
 		
 		String msgP1 = "Validity p1: {}";
-		logger.info(msgP1, p1.validityDate);
-		logger.info(msgP1, p1.validityDate.toInstant().atZone(ZONE_ID));
-		logger.info(msgP1.concat(LF), () -> dateFormatted(p1.validityDate));
+		log.info(msgP1, p1.validityDate);
+		log.info(msgP1, p1.validityDate.toInstant().atZone(ZONE_ID));
+		log.info(msgP1.concat(LF), () -> dateFormatted(p1.validityDate));
 		
 		nf.setMaximumFractionDigits(1);
 		nf.setMinimumFractionDigits(1);
 		
-		logger.info(() -> String.format("Volume p2: %s%c",
+		log.info(() -> String.format("Volume p2: %s%c",
 				nf.format(p2.getCubicVolume()), Character.valueOf('\u33A4')));
-		logger.info(() -> String.format("Volume p2: %.2f%c",
+		log.info(() -> String.format("Volume p2: %.2f%c",
 				p2.getCubicVolume(p2.sides), CharUtils.toChar('\u33A4')));
-		logger.info(() -> String.format("Weight p2: %.2f%c", p2.weight,
+		log.info(() -> String.format("Weight p2: %.2f%c", p2.weight,
 				CharUtils.toChar('\u338F')));
 		
 		String msgFactureP2 = "Facture p2: {}";
-		logger.info(msgFactureP2,
+		log.info(msgFactureP2,
 				LocalDate.ofInstant(p2.manufactureDate.toInstant(), ZONE_ID));
-		logger.info(msgFactureP2, p2.manufactureDate);
-		logger.info(msgFactureP2, () -> dateFormatted(p2.manufactureDate));
+		log.info(msgFactureP2, p2.manufactureDate);
+		log.info(msgFactureP2, () -> dateFormatted(p2.manufactureDate));
 		
 		String msgP2 = "Validity p2: {}";
-		logger.info(msgP2, p2.validityDate);
-		logger.info(msgP2, p2.validityDate.toInstant().atZone(ZONE_ID));
-		logger.info(msgP2, () -> dateFormatted(p2.validityDate));
+		log.info(msgP2, p2.validityDate);
+		log.info(msgP2, p2.validityDate.toInstant().atZone(ZONE_ID));
+		log.info(msgP2, () -> dateFormatted(p2.validityDate));
 	}
 	
 }

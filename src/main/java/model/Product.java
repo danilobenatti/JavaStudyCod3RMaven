@@ -45,7 +45,6 @@ public class Product {
 		this(1, 1, 1);
 	}
 	
-	// sthsrthsrth
 	public Product(String name, double price, double discount,
 			double shippingCost, float weight, float[] sides,
 			Date manufactureDate, Date validityDate) {
@@ -99,7 +98,7 @@ public class Product {
 	 * @param days
 	 */
 	@Deprecated(since = "1.0", forRemoval = true)
-	public void setValidity_(long days) {
+	public void setValidityDate(long days) {
 		// assume that 1 day = 8,64e+7 milliseconds
 		final double oneDayMilli = 8.64E7;
 		this.validityDate = new Date(
@@ -116,7 +115,7 @@ public class Product {
 	 * @param months
 	 */
 	@Deprecated(since = "1.0", forRemoval = true)
-	public void setValidity_(int months) {
+	public void setValidityDate(int months) {
 		// assume that 1 month = 2,628e+9 milliseconds
 		final double oneMonthMilli = 2.628E9;
 		this.validityDate = new Date((long) (this.manufactureDate.getTime()

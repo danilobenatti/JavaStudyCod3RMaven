@@ -69,38 +69,43 @@ public class ReduceTest2 {
 		BinaryOperator<Double> sum = Double::sum;
 		
 		list.stream().filter(approved).map(score).reduce(sum)
-				.ifPresent(s -> log.info(s));
+				.ifPresent(log::info);
 		
 		log.info(list.stream().filter(approved).count());
 		
 		log.info(list.stream().filter(approved)
 				.collect(Collectors.averagingDouble(Student::getAverage)));
 		
-		log.info(list.stream().filter(s -> s.getGender() == 'F')
+		log.info(list.stream().filter(approved)
 				.collect(Collectors.averagingDouble(Student::getAge)));
 		
-		log.info(list.stream().filter(s -> s.getGender() == 'M')
-				.collect(Collectors.averagingDouble(Student::getAge)));
+		log.printf(Level.INFO, "%s",
+				list.stream().filter(s -> s.getGender() == 'F')
+						.collect(Collectors.averagingDouble(Student::getAge)));
 		
-		log.printf(Level.INFO, "Average age of female students: %.2f",
+		log.printf(Level.INFO, "%s",
+				list.stream().filter(s -> s.getGender() == 'M')
+						.collect(Collectors.averagingDouble(Student::getAge)));
+		
+		log.printf(Level.INFO, "Average age for girls: %.2f",
 				list.stream().filter(studentFemale).map(Student::getAge)
 						.collect(AvgInteger::new, AvgInteger::accept,
 								AvgInteger::combine)
 						.average());
 		
-		log.printf(Level.INFO, "Average score of female students: %.2f", list
-				.stream().filter(studentFemale).map(Student::getAverage)
+		log.printf(Level.INFO, "Average score of girls: %.2f", list.stream()
+				.filter(studentFemale).map(Student::getAverage)
 				.collect(AvgDouble::new, AvgDouble::accept, AvgDouble::combine)
 				.average());
 		
-		log.printf(Level.INFO, "Average age of male students: %.2f",
+		log.printf(Level.INFO, "Average age for boys: %.2f",
 				list.stream().filter(studentMale).map(Student::getAge)
 						.collect(AvgInteger::new, AvgInteger::accept,
 								AvgInteger::combine)
 						.average());
 		
-		log.printf(Level.INFO, "Average score of male students: %.2f", list
-				.stream().filter(studentMale).map(Student::getAverage)
+		log.printf(Level.INFO, "Average score of boys: %.2f", list.stream()
+				.filter(studentMale).map(Student::getAverage)
 				.collect(AvgDouble::new, AvgDouble::accept, AvgDouble::combine)
 				.average());
 		

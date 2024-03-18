@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -35,13 +34,12 @@ public class MapTest {
 		stamp.stream().map(StreamUtil.lowerCase).forEach(s -> log.info(s));
 		
 		stamp.stream().map(StreamUtil.firstLetter.andThen(StreamUtil.upperCase))
-				.forEach(s -> log.printf(Level.INFO, "%s", s));
+				.forEach(log::info);
 		
-		stamp.stream().map(StreamUtil.lastLetter)
-				.forEach(s -> log.printf(Level.INFO, "%s", s));
+		stamp.stream().map(StreamUtil.lastLetter).forEach(log::info);
 		
 		stamp.stream().map(StreamUtil.upperCase).map(StreamUtil.firstLetter)
-				.map(append).forEach(s -> log.printf(Level.INFO, "%s", s));
+				.map(append).forEach(log::info);
 	}
 	
 }

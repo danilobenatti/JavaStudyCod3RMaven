@@ -30,7 +30,7 @@ public class FtpFileUpload {
 		
 		Map<String, String> envValues = System.getenv();
 		
-		File localFile = new File("./src/extra/test.txt");
+		File localFile = new File("./src/main/java/extra/test.txt");
 		String remoteFile = "public_ftp/incoming/test.txt";
 		
 		FTPClient ftpClient = new FTPClient();

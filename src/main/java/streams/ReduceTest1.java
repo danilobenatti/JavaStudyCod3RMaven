@@ -34,16 +34,16 @@ public class ReduceTest1 {
 		log.info(numbers.parallelStream().reduce(100, sum));
 		
 		numbers.stream().filter(n -> n % 2 == 0).reduce(sum)
-				.ifPresent(n -> log.info(n));
+				.ifPresent(log::info);
 		
 		numbers.stream().filter(n -> n % 2 != 0).reduce(sum)
-				.ifPresent(n -> log.info(n));
+				.ifPresent(log::info);
 		
 		numbers.stream().mapToDouble(Number::doubleValue).filter(n -> n <= 2)
-				.reduce(div).ifPresent(n -> log.info(n));
+				.reduce(div).ifPresent(log::info);
 		
 		numbers.stream().mapToDouble(Number::doubleValue).filter(n -> n >= 2)
-				.reduce(multi).ifPresent(n -> log.info(n));
+				.reduce(multi).ifPresent(log::info);
 		
 	}
 	

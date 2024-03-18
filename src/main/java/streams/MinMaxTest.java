@@ -46,14 +46,14 @@ public class MinMaxTest {
 			return 0;
 		};
 		
-		list.stream().max(bestScore).ifPresent(l -> log.info(l));
-		list.stream().max(worstScore).ifPresent(l -> log.info(l));
-		list.stream().max(bestScore.reversed()).ifPresent(l -> log.info(l));
-		list.stream().max(worstScore.reversed()).ifPresent(l -> log.info(l));
-		list.stream().min(bestScore).ifPresent(l -> log.info(l));
-		list.stream().min(worstScore).ifPresent(l -> log.info(l));
-		list.stream().min(bestScore.reversed()).ifPresent(l -> log.info(l));
-		list.stream().min(worstScore.reversed()).ifPresent(l -> log.info(l));
+		list.stream().max(bestScore).ifPresent(log::info);
+		list.stream().max(worstScore).ifPresent(log::info);
+		list.stream().max(bestScore.reversed()).ifPresent(log::info);
+		list.stream().max(worstScore.reversed()).ifPresent(log::info);
+		list.stream().min(bestScore).ifPresent(log::info);
+		list.stream().min(worstScore).ifPresent(log::info);
+		list.stream().min(bestScore.reversed()).ifPresent(log::info);
+		list.stream().min(worstScore.reversed()).ifPresent(log::info);
 	}
 	
 }
