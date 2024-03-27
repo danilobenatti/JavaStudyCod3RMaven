@@ -1,5 +1,7 @@
 package oo.composition.challenge;
 
+import static java.text.DateFormat.getDateInstance;
+
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -20,16 +22,16 @@ public class ShopTest {
 	static Logger log = LogManager.getLogger();
 	
 	private static final ZoneId ZONE_ID = ZoneId.systemDefault();
-	private static final Locale LOC = Locale.getDefault();
+	private static final Locale LOCALE = Locale.getDefault();
 	static NumberFormat nf = NumberFormat.getCurrencyInstance();
-	static DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, LOC);
+	static DateFormat df = getDateInstance(DateFormat.FULL, LOCALE);
 	
 	public static void main(String[] args) {
 		
 		Configurator.initialize(ShopTest.class.getName(),
 				"./src/main/java/util/log4j2.properties");
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("d-MMMM-yyyy", LOC);
+		SimpleDateFormat sdf = new SimpleDateFormat("d-MMMM-yyyy", LOCALE);
 		
 		Date date1 = Date.from(
 				LocalDate.of(2023, 10, 1).atStartOfDay(ZONE_ID).toInstant());
