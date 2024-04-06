@@ -1,0 +1,4 @@
+firstname; gender; weight; height; borndate; deathdate
+Peter; M; 89.5; 1.83; 1999-05-01; NULL
+Nany; F; 65.5; 1.74; 1987-10-25; NULL
+John; M; 75.0; 1.70; 2004-02-15; NULL
