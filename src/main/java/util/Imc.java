@@ -46,6 +46,7 @@ public class Imc {
 	}
 	
 	/**
+	 * @deprecated
 	 * Method that calculates the <b>body mass index</b> (BMI).
 	 * 
 	 * @param weight Person's weight in kilograms.
@@ -83,6 +84,7 @@ public class Imc {
 	}
 	
 	/**
+	 * @deprecated
 	 * Method that calculates the <b>body mass index</b> (BMI) by the
 	 * individual's gender.
 	 * 

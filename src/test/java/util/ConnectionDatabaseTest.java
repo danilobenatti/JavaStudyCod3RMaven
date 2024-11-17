@@ -1,6 +1,9 @@
 package util;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -8,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import dao.DAO;
 import model.Person;
 
 class ConnectionDatabaseTest {
@@ -107,7 +110,7 @@ class ConnectionDatabaseTest {
 		try (Connection conn = ConnectionDatabase.getDataSourceConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS)) {
-			setAttributes(pstmt, person.getName(), person.getGender(),
+			DAO.setAttributes(pstmt, person.getName(), person.getGender(),
 					person.getWeight(), person.getHeight(),
 					person.getBornDate(), person.getDeathDate());
 			result = pstmt.execute();
@@ -121,27 +124,6 @@ class ConnectionDatabaseTest {
 			e.printStackTrace();
 		}
 		return result;
-	}
-	
-	private void setAttributes(PreparedStatement pstmt, Object... attributes)
-			throws SQLException {
-		int index = 1;
-		for (Object obj : attributes) {
-			switch (obj) {
-				case Integer i -> pstmt.setInt(index, i);
-				case Long l -> pstmt.setLong(index, l);
-				case String s -> pstmt.setString(index, s);
-				case Character c -> pstmt.setString(index, String.valueOf(c));
-				case Float f -> pstmt.setFloat(index, f);
-				case Double d -> pstmt.setDouble(index, d);
-				case Date dt -> pstmt.setDate(index, dt);
-				case LocalDate ldt -> pstmt.setDate(index, Date.valueOf(ldt));
-				case null -> pstmt.setNull(index, Types.NULL);
-				default -> throw new IllegalArgumentException(
-						"Unexpected value: " + obj);
-			}
-			index++;
-		}
 	}
 	
 	@ParameterizedTest(name = "[{index}] - {0}")

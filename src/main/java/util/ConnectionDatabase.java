@@ -23,8 +23,9 @@ public class ConnectionDatabase {
 	static Logger log = LogManager.getLogger(ConnectionDatabase.class);
 	
 	private static final String USESSL = "useSSL=true";
+	private static final String SSLMODE = "sslMode=PREFERRED";
 	private static final String CERTIFICATE = "verifyServerCertificate=false";
-	private static final String ENCODING = "useUnicode=true;characterEncoding=UTF-8";
+	private static final String ENCODING = "useUnicode=true;connectionCollation=utf8_bin;characterSetResults=utf8;characterEncoding=UTF-8";
 	private static final String TIMEZONE = "useTimezone=true;serverTimezone=America/Sao_Paulo";
 	
 	private static BasicDataSource dataSource;
@@ -49,8 +50,8 @@ public class ConnectionDatabase {
 			dataSource.setUsername(prop.getProperty("db.username"));
 			dataSource.setPassword(prop.getProperty("db.password"));
 			dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-			dataSource.setConnectionProperties(
-					joinWith(";", USESSL, CERTIFICATE, ENCODING, TIMEZONE));
+			dataSource.setConnectionProperties(joinWith(";", USESSL, SSLMODE,
+					CERTIFICATE, ENCODING, TIMEZONE));
 			dataSource.setDefaultAutoCommit(true);
 			dataSource.setInitialSize(3);
 			dataSource.setMinIdle(3);
