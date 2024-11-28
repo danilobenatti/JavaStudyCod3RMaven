@@ -16,8 +16,6 @@ public class ConnectionFactory {
 	
 	public static Connection getConnection() {
 		
-		final String url = "jdbc:mysql://localhost?verifyServerCertificate=false&useSSL=true&sslMode=PREFERRED";
-		
 		Properties prop = new Properties();
 		
 		try (FileInputStream inputStream = new FileInputStream(
@@ -30,7 +28,7 @@ public class ConnectionFactory {
 		}
 		
 		try {
-			return DriverManager.getConnection(url,
+			return DriverManager.getConnection(prop.getProperty("db.url"),
 					prop.getProperty("db.username"),
 					prop.getProperty("db.password"));
 		} catch (SQLException e) {
