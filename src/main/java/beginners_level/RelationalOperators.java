@@ -31,10 +31,12 @@ public class RelationalOperators {
 		log.info(3 < 7);
 		log.info(30 <= 7);
 		
-		double grade = Double.parseDouble(showInputDialog("Inform grade:"));
+		boolean reachedAverage = Double
+				.parseDouble(showInputDialog("Inform grade:")) >= 7;
+		
 		boolean goodBehavior = showConfirmDialog(null, "Have good behavior?",
 				"Behavior", JOptionPane.YES_NO_OPTION) == 0;
-		boolean reachedAverage = grade >= 7.0;
+		
 		boolean willHaveDiscount = goodBehavior && reachedAverage;
 		
 		String result = willHaveDiscount ? "Yes" : "No";
@@ -45,7 +47,7 @@ public class RelationalOperators {
 				"Discount",
 				willHaveDiscount ? INFORMATION_MESSAGE : WARNING_MESSAGE);
 		
-		log.info(() -> "Will have a discount? " + result);
+		log.info("Will have a discount? {}", result);
 	}
 	
 }

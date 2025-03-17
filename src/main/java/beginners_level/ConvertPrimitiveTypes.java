@@ -1,23 +1,29 @@
 package beginners_level;
 
+import java.io.PrintWriter;
+
 public class ConvertPrimitiveTypes {
 	
 	public static void main(String[] args) {
 		
+		PrintWriter console = new PrintWriter(System.out, true);
+		
 		double d = 1; // implicitly
-		System.out.println(d);
+		console.println(d);
 		
 		float f = (float) 1.1234567890; // explicitly (cast)
-		System.out.println(f);
+		console.println(f);
 		
-		int i = 127;
+		int i = 128;
 		byte b = (byte) i;
-		System.out.println(b);
+		console.println(b);
 		
 		var v = 1.10F;
 		double e = Double.parseDouble(String.valueOf(v));
-		System.out.println(v + " - " + ((Object) v).getClass().getSimpleName());
-		System.out.println(e + " - " + ((Object) e).getClass().getSimpleName());
+		console.println(v + " - " + ((Object) v).getClass().getSimpleName());
+		console.println(e + " - " + ((Object) e).getClass().getSimpleName());
+		
+		console.close();
 		
 	}
 	

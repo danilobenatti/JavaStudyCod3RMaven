@@ -15,32 +15,42 @@ public class PrimitiveVsObject {
 		Configurator.initialize(PrimitiveVsObject.class.getName(),
 				"./src/main/java/util/log4j2.properties");
 		
-		log.info(() -> "Text".toUpperCase());
+		log.info(() -> {
+			String string = "TEXT";
+			return string.toUpperCase();
+		});
 		
 		int a = 123;
 		log.info(a);
 		
 		// Wrappers
 		Byte b = 100;
-		Short s = 10;
-		Integer i = Integer.parseInt("1000");
-		Long l = 100000L;
-		Float f = 100000.5F;
-		Double d = 100E205;
-		Boolean e = true;
-		Character c = '\u0040';
+		log.info("b={}", b::byteValue);
 		
-		log.info(b::byteValue);
-		log.info(s::shortValue);
-		log.info(i::intValue);
-		log.info(l::longValue);
-		log.info(f::floatValue);
-		log.info(d::doubleValue);
-		log.info(e::booleanValue);
+		Short s = 10;
+		log.info("s={}", s::shortValue);
+		
+		Integer i = Integer.parseInt("1000");
+		log.info("i={}", i::intValue);
+		
+		Long l = 100000L;
+		log.info("l={}", l::longValue);
+		
+		Float f = 100000.5F;
+		log.info("f={}", f::floatValue);
+		
+		Double d = 1000E205;
+		log.info("d={}", d::doubleValue);
+		log.info(() -> "d=".concat(BigDecimal.valueOf(d).toEngineeringString()));
+		
+		Boolean e = true;
+		log.info("e={}", e::booleanValue);
 		log.info(Boolean.parseBoolean("TRUE"));
+		
+		Character c = '\u0040'; // = @
 		log.info(() -> c.charValue() + "gmail");
+		
 		log.info(() -> getUnicodeCharacterOfChar('@'));
-		log.info(() -> BigDecimal.valueOf(d).toEngineeringString());
 	}
 	
 	public static String getUnicodeCharacterOfChar(char ch) {

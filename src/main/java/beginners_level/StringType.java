@@ -25,6 +25,7 @@ public class StringType {
 		log.info(str.charAt(11));
 		log.info(str.indexOf("!"));
 		log.info(str.charAt(str.length() - 1));
+		log.info(str.contains("w"));
 		log.info(str.toLowerCase().startsWith("hell"));
 		log.info(str.endsWith(String.valueOf('\u0021'))); // '!'
 		log.info(str.equalsIgnoreCase("Hello World!"));
@@ -44,10 +45,10 @@ public class StringType {
 				.concat(String.format("%s", cfBR.format(num))));
 		
 		log.info(() -> StringUtils.join(txt).concat(SPACE)
-				.concat(String.format(Locale.US, "%.2f", num)));
+				.concat(String.format("%s", cfUS.format(num))));
 		
 		log.info(() -> StringUtils.join(txt).concat(SPACE)
-				.concat(String.format("%s", cfUS.format(num))));
+				.concat(String.format(Locale.US, "%.2f", num)));
 	}
 	
 }

@@ -6,6 +6,7 @@ import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static org.apache.commons.lang3.StringUtils.LF;
 
+import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -18,12 +19,14 @@ public class CalculateAreaOfCircle {
 	
 	public static void main(String[] args) {
 		
+		PrintWriter console = new PrintWriter(System.out, true);
+		
 		nf.setMinimumFractionDigits(5);
 		
 		final double PI = 3.14159;
 		
-		System.out.println(PI);
-		System.out.println(PI == Math.PI);
+		console.println(PI);
+		console.println(PI == Math.PI);
 		
 		double radius = Double.parseDouble(showInputDialog(null, "Inform radiu",
 			"Input Value", QUESTION_MESSAGE));
@@ -36,17 +39,17 @@ public class CalculateAreaOfCircle {
 		double perimeterByRadio = MathUtils.TWO_PI * radius;
 		double perimeterByDiameter = Math.PI * diameter;
 		
-		System.out.println(areaByRadio);
-		System.out.println(areaByDiameter);
-		System.out.println(perimeterByRadio);
-		System.out.println(perimeterByDiameter);
+		console.println(areaByRadio);
+		console.println(areaByDiameter);
+		console.println(perimeterByRadio);
+		console.println(perimeterByDiameter);
 		
-		System.out.printf("Area by radius: %s%c%n", nf.format(areaByRadio),
+		console.printf("Area by radius: %s%c%n", nf.format(areaByRadio),
 			'\u339F');
-		System.out.printf("Area by \u2205: %.5f%c%n", areaByDiameter, '\u339F');
-		System.out.printf("Perimeter by radius: %s%c%n",
+		console.printf("Area by \u2205: %.5f%c%n", areaByDiameter, '\u339F');
+		console.printf("Perimeter by radius: %s%c%n",
 			nf.format(perimeterByRadio), '\u339C');
-		System.out.printf("Perimeter by \u2205: %.6f%c%n", perimeterByDiameter,
+		console.printf("Perimeter by \u2205: %.6f%c%n", perimeterByDiameter,
 			'\u339C');
 		
 		StringBuilder sb = new StringBuilder();

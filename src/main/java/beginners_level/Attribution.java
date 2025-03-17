@@ -1,8 +1,12 @@
 package beginners_level;
 
+import java.io.PrintWriter;
+
 public class Attribution {
 	
 	public static void main(String[] args) {
+		
+		PrintWriter console = new PrintWriter(System.out, true);
 		
 		int a = 3;
 		int b = a;
@@ -12,10 +16,10 @@ public class Attribution {
 		c -= a; // c = c - a;
 		c *= b; // c = c * b;
 		c /= a; // c = c / 3;
-		System.out.println(c);
+		console.println(c);
 
 		c %= 2; // c = c % 2;
-		System.out.println(c);
+		console.println(c);
 	}
 	
 }

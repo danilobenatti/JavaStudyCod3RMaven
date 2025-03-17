@@ -20,15 +20,17 @@ public class UseConsole {
 		
 		try (Scanner scanner = new Scanner(System.in).useLocale(Locale.US)) {
 			log.info("Inform name[Ex. Mary]: ");
-			p.setName(scanner.next());
+			p.setName(scanner.nextLine());
 			log.info("Inform gender(M/F)[Ex. F]: ");
-			p.setGender(Character.toUpperCase(scanner.next().charAt(0)));
+			p.setGender(Character.toUpperCase(scanner.nextLine().charAt(0)));
 			log.info("Inform height[Ex. 1.65]: ");
-			p.setHeight(Float.parseFloat(scanner.next().replace(',', '.')));
+			p.setHeight(Float.parseFloat(scanner.nextLine().replace(',', '.')));
 			log.info("Inform weight[Ex. 68.7}]: ");
-			p.setWeight(Float.parseFloat(scanner.next().replace(',', '.')));
+			p.setWeight(Float.parseFloat(scanner.nextLine().replace(',', '.')));
+			
 			p.setBornDate(LocalDate.now().minusYears(27));
 			p.setDeathDate(LocalDate.now());
+			
 		}
 		
 		Object[] params = { p, p.getAgeWithSymbol(),

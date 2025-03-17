@@ -1,8 +1,12 @@
 package beginners_level;
 
+import java.io.PrintWriter;
+
 public class UnaryOperators {
 	
 	public static void main(String[] args) {
+		
+		PrintWriter console = new PrintWriter(System.out, true);
 		
 		int a = 1;
 		int b = 2;
@@ -13,14 +17,16 @@ public class UnaryOperators {
 		++b; // b = b + 1
 		--b; // b = b - 1
 		
-		System.out.println(a);
-		System.out.println(b);
+		console.println(a);
+		console.println(b);
 		
-		System.out.println("Chalenge");
-		System.out.println(++a == b--); // 2 - 2
-		System.out.println(a == b); // 2 - 1
-		System.out.println(a);
-		System.out.println(b);
+		console.println("Chalenge");
+		console.println(++a == b--); // 2 - 2
+		console.println(a == b); // 2 - 1
+		console.println(a);
+		console.println(b);
+		
+		console.close();
 		
 	}
 	
