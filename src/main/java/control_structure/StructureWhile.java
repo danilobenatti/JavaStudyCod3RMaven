@@ -2,26 +2,21 @@ package control_structure;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
+import java.io.PrintWriter;
 import java.util.Random;
+import java.util.StringJoiner;
 import java.util.concurrent.ThreadLocalRandom;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
 
 public class StructureWhile {
 	
-	static Logger log = LogManager.getLogger();
+	static PrintWriter console = new PrintWriter(System.out, true);
 	
 	static final int FIND = 25;
 	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(StructureWhile.class.getName(),
-				"./src/main/java/util/log4j2.properties");
-		
 		// 0 - 9 (integer)
-		log.info(new Random().nextInt(0, 11));
+		console.println(new Random().nextInt(0, 11));
 		
 		// between 10 and 100 (integer)
 		int min = 10;
@@ -44,22 +39,31 @@ public class StructureWhile {
 			l = new Random().nextInt(max - min + 1);
 			k++;
 		} while (l != FIND);
-		message(k, FIND);
+		message_(k, FIND);
 		
 		// between the origin (inclusive) and the bound (exclusive)
-		log.info(() -> "Random[0 - 100]: " + new Random().nextInt(0, 101));
+		console.println("Random[0 - 100]: " + new Random().nextInt(0, 101));
 		
-		log.info(ThreadLocalRandom.current().nextInt(0, 10));
-		log.info(ThreadLocalRandom.current().nextBoolean());
+		console.println(ThreadLocalRandom.current().nextInt(0, 10));
+		console.println(ThreadLocalRandom.current().nextBoolean());
 		
-		for (String v = "#"; !v.equals("######"); v += "#") {
-			log.info(v);
+		for (String v = "#"; !v.equals("######"); v = v.concat("#")) {
+			console.println(v);
 		}
+		
+		console.flush();
+		console.close();
 	}
 	
 	public static void message(int i, int find) {
-		log.info(new StringBuilder().append("Loop").append(SPACE).append(i)
+		console.println(new StringBuilder().append("Loop ").append(i)
 				.append(SPACE).append("times until finding n").append('\u00BA')
 				.append(SPACE).append(find));
+	}
+	
+	public static void message_(int i, int find) {
+		console.println(new StringJoiner("\s").add("Loop")
+				.add(String.valueOf(i)).add("times until finding nº")
+				.add(String.valueOf(find)));
 	}
 }

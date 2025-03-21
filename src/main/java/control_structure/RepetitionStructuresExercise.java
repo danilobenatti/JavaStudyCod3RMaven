@@ -4,32 +4,27 @@ import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 import static javax.swing.JOptionPane.showInputDialog;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.apache.commons.lang3.StringUtils.joinWith;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
-
 import lombok.Getter;
 
 public class RepetitionStructuresExercise {
 	
-	static Logger log = LogManager.getLogger();
 	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(RepetitionStructuresExercise.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
 		int[] numbersOfBet = new int[] { 34, 1, 50, 10, 57, 15 };
 		int[] numbersOfBetPlus = new int[] { 35, 2, 51, 15, 60, 25, 8, 45 };
-		int[] numbersOfBetPremium = new int[] { 34, 1, 50, 10, 25, 15, 18, 5,
-				52, 8, 20, 30, 28, 45, 33 };
+		int[] numbersOfBetPremium = new int[] { 34, 1, 50, 10, 25, 15, 18, 5, 52, 8, 20, 30, 28, 45, 33 };
 		
 		int[] lotteryNumbers = sortition(new Random(), 1, 60, 6);
 		
@@ -37,7 +32,7 @@ public class RepetitionStructuresExercise {
 		for (int number : lotteryNumbers) {
 			builder.append(number).append(SPACE);
 		}
-		log.info(builder);
+		console.println(joinWith(SPACE, "Lottery Numbers:", builder));
 		
 		Bet bet = (Bet) showInputDialog(null, "What type of bet?",
 				"Betting type", QUESTION_MESSAGE, null,
@@ -55,16 +50,19 @@ public class RepetitionStructuresExercise {
 		int[] numbersUserBet = Stream.of(userBet).mapToInt(Integer::parseInt)
 				.distinct().toArray();
 		
-		log.info(() -> String.format("%nBet User(%d): %s",
+		console.println(String.format("%nBet User(%d): %s",
 				numbersUserBet.length,
 				Arrays.asList(resultOfBet(numbersUserBet, lotteryNumbers))));
-		log.info(() -> String.format("%nBet Standard(%d): %s",
+		
+		console.println(String.format("%nBet Standard(%d): %s",
 				numbersOfBet.length,
 				Arrays.asList(resultOfBet(numbersOfBet, lotteryNumbers))));
-		log.info(() -> String.format("%nBet Plus(%d): %s",
+		
+		console.println(String.format("%nBet Plus(%d): %s",
 				numbersOfBetPlus.length,
 				Arrays.asList(resultOfBet(numbersOfBetPlus, lotteryNumbers))));
-		log.info(() -> String.format("%nBet Premium(%d): %s",
+		
+		console.println(String.format("%nBet Premium(%d): %s",
 				numbersOfBetPremium.length, Arrays.asList(
 						resultOfBet(numbersOfBetPremium, lotteryNumbers))));
 		
