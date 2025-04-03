@@ -4,31 +4,8 @@
 [INFO ] 2024-03-11 11:25:21.081 [main] FtpFileUpload - FTP server successfully connect: 211 https://www.pureftpd.org/
 
 [INFO ] 2024-03-11 11:25:21.696 [main] FtpFileUpload - File is uploaded successfully.
-[INFO ] 2025-03-10 10:48:58.900 [main] ArithmeticOperators - 5
-[INFO ] 2025-03-10 10:48:58.903 [main] ArithmeticOperators - 36.760000000000005
-[INFO ] 2025-03-10 10:48:58.903 [main] ArithmeticOperators - 32.36
-[INFO ] 2025-03-10 10:48:58.906 [main] ArithmeticOperators - 76.03200000000001
-[INFO ] 2025-03-10 10:48:58.906 [main] ArithmeticOperators - 15.709090909090909
-[INFO ] 2025-03-10 10:48:58.906 [main] ArithmeticOperators - 1.5599999999999996
-[INFO ] 2025-03-10 10:48:58.906 [main] ArithmeticOperators - 11
-[INFO ] 2025-03-10 10:48:58.906 [main] ArithmeticOperators - 5
-[INFO ] 2025-03-10 10:48:58.906 [main] ArithmeticOperators - 24
-[INFO ] 2025-03-10 10:48:58.906 [main] ArithmeticOperators - 2
-[INFO ] 2025-03-10 10:48:58.906 [main] ArithmeticOperators - 2.6666667
-[INFO ] 2025-03-10 10:48:58.906 [main] ArithmeticOperators - 2.6666666666666665
-[INFO ] 2025-03-10 10:48:58.906 [main] ArithmeticOperators - 2
-[INFO ] 2025-03-10 10:48:58.907 [main] ArithmeticOperators - 25.8509090909091
-[INFO ] 2025-03-17 10:25:23.322 [main] ArithmeticOperators - 5
-[INFO ] 2025-03-17 10:25:23.325 [main] ArithmeticOperators - 36.760000000000005
-[INFO ] 2025-03-17 10:25:23.325 [main] ArithmeticOperators - 32.36
-[INFO ] 2025-03-17 10:25:23.325 [main] ArithmeticOperators - 76.03200000000001
-[INFO ] 2025-03-17 10:25:23.325 [main] ArithmeticOperators - 15.709090909090909
-[INFO ] 2025-03-17 10:25:23.325 [main] ArithmeticOperators - 1.5599999999999996
-[INFO ] 2025-03-17 10:25:23.325 [main] ArithmeticOperators - 11
-[INFO ] 2025-03-17 10:25:23.325 [main] ArithmeticOperators - 5
-[INFO ] 2025-03-17 10:25:23.326 [main] ArithmeticOperators - 24
-[INFO ] 2025-03-17 10:25:23.326 [main] ArithmeticOperators - 2
-[INFO ] 2025-03-17 10:25:23.326 [main] ArithmeticOperators - 2.6666667
-[INFO ] 2025-03-17 10:25:23.326 [main] ArithmeticOperators - 2.6666666666666665
-[INFO ] 2025-03-17 10:25:23.326 [main] ArithmeticOperators - 2
-[INFO ] 2025-03-17 10:25:23.326 [main] ArithmeticOperators - 25.8509090909091
+[INFO ] 2025-03-27 10:51:54.755 [main] FtpFileUpload - Successfully connect: 211 https://www.pureftpd.org/
+ UNIX Type: L8 (60000) ftp.ecosensor.com.br/65.181.111.167
+[INFO ] 2025-03-27 10:51:55.369 [main] FtpFileUpload - Uploaded successfully.
+[INFO ] 2025-03-27 10:51:56.219 [main] FtpFileUpload - Logout from FTP.
+[INFO ] 2025-03-27 10:51:56.220 [main] FtpFileUpload - Disconnect from FTP.

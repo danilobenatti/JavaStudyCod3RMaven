@@ -1,5 +1,6 @@
 package util;
 
+import static model.Person.person;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -86,7 +87,7 @@ class ConnectionDatabaseTest {
 		files = "./src/test/resources/data_person.csv")
 	void InsertPersonTest(String firstname, Character gender, float weight,
 			float height, Date borndate, Date deathdate) {
-		Person person = Person.personBuilder().name(firstname).gender(gender)
+		Person person = person().name(firstname).gender(gender)
 				.weight(weight).height(height)
 				.bornDate(borndate != null ? borndate.toLocalDate() : null)
 				.deathDate(deathdate != null ? deathdate.toLocalDate() : null)
@@ -152,7 +153,7 @@ class ConnectionDatabaseTest {
 	}
 	
 	private Person getPerson(ResultSet resultSet) throws SQLException {
-		return Person.personBuilder().id(resultSet.getLong("id"))
+		return person().id(resultSet.getLong("id"))
 				.name(resultSet.getString("col_firstname"))
 				.gender(resultSet.getString("col_gender").charAt(0))
 				.weight(resultSet.getFloat("col_weight"))

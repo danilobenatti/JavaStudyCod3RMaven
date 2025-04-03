@@ -1,5 +1,7 @@
 package jdbc;
 
+import static model.Person.person;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +28,7 @@ public class SearchPersonByName {
 			stmt.setString(1, "%".concat(str).concat("%"));
 			ResultSet set = stmt.executeQuery();
 			while (set.next()) {
-				Person person = Person.personBuilder().id(set.getLong("id"))
+				Person person = person().id(set.getLong("id"))
 						.name(set.getString("col_firstname"))
 						.gender(set.getString("col_gender").charAt(0))
 						.weight(set.getFloat("col_weight"))

@@ -1,6 +1,6 @@
 package jdbc;
 
-import static model.Person.personBuilder;
+import static model.Person.person;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -25,7 +25,7 @@ public class ListPersons {
 				Statement stmt = conn.createStatement()) {
 			ResultSet set = stmt.executeQuery(sql);
 			while (set.next()) {
-				list.add(personBuilder().id(set.getLong("id"))
+				list.add(person().id(set.getLong("id"))
 						.name(set.getString("col_firstname"))
 						.gender(set.getString("col_gender").charAt(0))
 						.weight(set.getFloat("col_weight"))

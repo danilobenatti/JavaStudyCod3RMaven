@@ -23,7 +23,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@SuperBuilder(builderMethodName = "personBuilder")
+@SuperBuilder(builderMethodName = "person")
 public class Person {
 	
 	@Include
@@ -49,8 +49,10 @@ public class Person {
 	
 	private LocalDate deathDate;
 	
+	private static final ZoneId ZONE_ID = ZoneId.systemDefault();
+	
 	public boolean isAlive() {
-		return this.deathDate == null;
+		return this.bornDate != null & this.deathDate == null;
 	}
 	
 	public int getAge() {
@@ -64,21 +66,20 @@ public class Person {
 	}
 	
 	public String getAgeWithSymbol() {
-		return isAlive()
-				? String.valueOf(getAge()).concat(String.valueOf('\u2605'))
-				: String.valueOf(getAge()).concat(String.valueOf('\u2020'));
+		String blackStar = String.valueOf('\u2605');
+		String dagger = String.valueOf('\u2020');
+		return isAlive() ? String.valueOf(getAge()).concat(blackStar)
+				: String.valueOf(getAge()).concat(dagger);
 	}
 	
 	public void killPersonNow() {
-		if (this.bornDate != null && this.deathDate == null
-				&& LocalDate.now().compareTo(this.bornDate) >= 0) {
-			this.deathDate = LocalDate.now(ZoneId.systemDefault());
+		if (isAlive() && LocalDate.now().compareTo(this.bornDate) >= 0) {
+			this.deathDate = LocalDate.now(ZONE_ID);
 		}
 	}
 	
 	public void killPersonAtDate(LocalDate date) {
-		if (this.bornDate != null && this.deathDate == null
-				&& date.compareTo(this.bornDate) >= 0) {
+		if (isAlive() && date.compareTo(this.bornDate) >= 0) {
 			this.deathDate = date;
 		}
 	}
@@ -86,16 +87,14 @@ public class Person {
 	public void killPersonAtDate(Date date) {
 		LocalDate killDate = date.toInstant().atZone(ZoneId.systemDefault())
 				.toLocalDate();
-		if (this.bornDate != null && this.deathDate == null
-				&& killDate.compareTo(this.bornDate) >= 0) {
+		if (isAlive() && killDate.compareTo(this.bornDate) >= 0) {
 			this.deathDate = killDate;
 		}
 	}
 	
 	public void killPersonAtDate(Date date, ZoneId zoneid) {
 		LocalDate killDate = date.toInstant().atZone(zoneid).toLocalDate();
-		if (this.bornDate != null && this.deathDate == null
-				&& killDate.compareTo(this.bornDate) >= 0) {
+		if (isAlive() && killDate.compareTo(this.bornDate) >= 0) {
 			this.deathDate = killDate;
 		}
 	}

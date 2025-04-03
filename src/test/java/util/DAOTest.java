@@ -1,6 +1,6 @@
 package util;
 
-import static model.Person.personBuilder;
+import static model.Person.person;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
@@ -27,7 +27,7 @@ class DAOTest {
 			(?, ?, ?)
 			""";
 		
-		Person p = personBuilder().name("Test").gender('M')
+		Person p = person().name("Test").gender('M')
 				.bornDate(LocalDate.now().minus(45, ChronoUnit.YEARS)).build();
 		
 		int i = dao.include(sql, p.getName(), p.getGender(), p.getBornDate());

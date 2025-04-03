@@ -1,7 +1,5 @@
 package model;
 
-import static java.text.DateFormat.getDateInstance;
-
 import java.text.DateFormat;
 import java.time.Instant;
 import java.time.Year;
@@ -19,30 +17,41 @@ import lombok.Setter;
 @Setter
 public class Product {
 	
-	String name;
+	private static final Locale LOCALE = Locale.ROOT;
 	
-	double price;
+	private static final ZoneId SYSTEM_DEFAULT = ZoneId.systemDefault();
 	
-	double discount = 0.1;
+	private String name;
 	
-	double shippingCost;
+	private double price;
 	
-	float weight;
+	private double discount = 0.1;
 	
-	float xSize;
+	private double shippingCost;
 	
-	float ySize;
+	private float weight;
 	
-	float zSize;
+	private float xSide;
 	
-	float[] sides = new float[] { this.xSize, this.ySize, this.zSize };
+	private float ySide;
 	
-	Date manufactureDate;
+	private float zSide;
 	
-	Date validityDate;
+	private float[] sides = new float[] { this.xSide, this.ySide, this.zSide };
+	
+	private Date manufactureDate;
+	
+	private Date validityDate;
 	
 	public Product() {
 		this(1, 1, 1);
+	}
+	
+	public Product(float x, float y, float z) {
+		this.xSide = x;
+		this.ySide = y;
+		this.zSide = z;
+		this.sides = new float[] { this.xSide, this.ySide, this.zSide };
 	}
 	
 	public Product(String name, double price, double discount,
@@ -69,13 +78,6 @@ public class Product {
 		this.validityDate = validityDate;
 	}
 	
-	public Product(float xSize, float ySize, float zSize) {
-		this.xSize = xSize;
-		this.ySize = ySize;
-		this.zSize = zSize;
-		this.sides = new float[] { xSize, ySize, zSize };
-	}
-	
 	public Product(String name, double price, double discount,
 			double shippingCost, float weight) {
 		this.name = name;
@@ -90,7 +92,7 @@ public class Product {
 	}
 	
 	public double getPriceWithDiscount(double discount) {
-		return this.price * (1 - discount);
+		return this.price * (1 - (this.discount + discount));
 	}
 	
 	/**
@@ -124,14 +126,13 @@ public class Product {
 	
 	public void setValidity(int months) {
 		this.validityDate = Date.from(this.manufactureDate.toInstant()
-				.atZone(ZoneId.systemDefault()).plusMonths(months).toInstant());
+				.atZone(SYSTEM_DEFAULT).plusMonths(months).toInstant());
 		
 	}
 	
 	public void setValidity(Year year) {
-		this.validityDate = Date.from(
-				this.manufactureDate.toInstant().atZone(ZoneId.systemDefault())
-						.plusYears(year.getValue()).toInstant());
+		this.validityDate = Date.from(this.manufactureDate.toInstant()
+				.atZone(SYSTEM_DEFAULT).plusYears(year.getValue()).toInstant());
 	}
 	
 	public Date getValidityDateByDays(long days) {
@@ -140,44 +141,59 @@ public class Product {
 	}
 	
 	public Date getValidityDateByMonths(int months) {
-		return Date.from(this.manufactureDate.toInstant()
-				.atZone(ZoneId.systemDefault()).plusMonths(months).toInstant());
+		return Date.from(this.manufactureDate.toInstant().atZone(SYSTEM_DEFAULT)
+				.plusMonths(months).toInstant());
 	}
 	
 	public boolean validityDateIsOk() {
-		if (this.validityDate != null) {
+		if (this.validityDate != null)
 			return Date.from(Instant.now().truncatedTo(ChronoUnit.DAYS))
 					.compareTo(this.validityDate) < 0;
-		}
 		return false;
 	}
 	
-	public void setCubicVolume(float xSize, float ySize, float zSize) {
-		this.xSize = xSize;
-		this.ySize = ySize;
-		this.zSize = zSize;
-		this.sides = new float[] { xSize, ySize, zSize };
+	public void setVolume(float... side) {
+		this.sides = new float[] { side[0], side[1], side[2] };
+		this.xSide = this.sides[0];
+		this.ySide = this.sides[1];
+		this.zSide = this.sides[2];
 	}
 	
-	public float getCubicVolume() {
-		if (sides != null) {
-			xSize = sides[0];
-			ySize = sides[1];
-			zSize = sides[2];
+	public void setVolume(float x, float y, float z) {
+		this.sides = new float[] { x, y, z };
+		this.xSide = this.sides[0];
+		this.ySide = this.sides[1];
+		this.zSide = this.sides[2];
+	}
+	
+	public float getVolume() {
+		if (this.sides != null) {
+			this.xSide = this.sides[0];
+			this.ySide = this.sides[1];
+			this.zSide = this.sides[2];
 		}
-		return xSize * ySize * zSize;
+		return this.xSide * this.ySide * this.zSide;
 	}
 	
-	public float getCubicVolume(float[] sides) {
-		float cubicVolume = 1;
+	public float getVolume(float x, float y, float z) {
+		if (this.sides != null) {
+			this.xSide = this.sides[0];
+			this.ySide = this.sides[1];
+			this.zSide = this.sides[2];
+		}
+		return this.xSide * this.ySide * this.zSide;
+	}
+	
+	public float getVolume(float... sides) {
+		float volume = 1;
 		for (float side : sides)
-			cubicVolume *= side;
-		return cubicVolume;
+			volume *= side;
+		return volume;
 	}
 	
 	@Override
 	public String toString() {
-		var df = getDateInstance(DateFormat.SHORT, Locale.ROOT);
+		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, LOCALE);
 		StringBuilder sb = new StringBuilder();
 		sb.append("Product [name=");
 		sb.append(name);

@@ -30,6 +30,8 @@ public class TernaryOperator {
 		
 		console.println(test(7.6));
 		
+		console.close();
+		
 	}
 	
 	public static String test(double avg) {
