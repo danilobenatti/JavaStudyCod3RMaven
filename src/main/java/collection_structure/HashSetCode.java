@@ -2,37 +2,66 @@ package collection_structure;
 
 import static model.Customer.customer;
 
+import java.io.PrintWriter;
+import java.util.Comparator;
 import java.util.HashSet;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
+import java.util.Set;
+import java.util.TreeSet;
 
 import model.Customer;
 
 public class HashSetCode {
 	
-	static Logger log = LogManager.getLogger();
-	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(HashSetCode.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
 		HashSet<Customer> customers = new HashSet<>();
 		
-		var cli1 = customer().id(1).name("Cloe").email("cloe@mail.com").build();
-		var cli2 = customer().id(2).name("Mary").email("mary@pmail.rt").build();
-		var cli3 = customer().id(3).name("Joy").email("yoj@kmail.yp").build();
+		var c1 = customer().id(1).name("Cloe").email("cloe@mail.com").build();
+		var c2 = customer().id(2).name("Mary").email("mary@pmail.rt").build();
+		var c3 = customer().id(3).name("Joy").email("yoj@kmail.yp").build();
 		
-		customers.add(cli1);
-		customers.add(cli2);
-		customers.add(cli3);
+		customers.add(c1);
+		customers.add(c2);
+		customers.add(c3);
 		
-		var customer = customer().id(1).name("Cloe").email("cloe@mail.com")
-				.build();
+		customers.forEach(console::println);
 		
-		log.info(customers.contains(customer));
+		console.println();
+		
+		Set<Customer> treeSet = new TreeSet<>(new CustomerCompareById());
+		
+		var c4 = customer().id(4).name("Peter").email("p3t3r@mail.com").build();
+		
+		treeSet.addAll(customers);
+		treeSet.add(c4);
+		
+		treeSet.forEach(console::println);
+		
+		var cli = customer().id(1).name("Cloe").email("cloe@mail.com").build();
+		
+		console.println(customers.size());
+		console.println(customers.contains(cli));
+		console.println(customers.remove(c1));
+		console.println(customers.contains(cli));
+		console.println(customers.size());
+		
+		Set<Customer> set = new HashSet<>();
+		set.addAll(customers);
+		
+		set.forEach(console::println);
+		
+		console.close();
+	}
+	
+	public static class CustomerCompareById implements Comparator<Customer> {
+		
+		@Override
+		public int compare(Customer c1, Customer c2) {
+			return Long.compare(c1.getId(), c2.getId());
+		}
 	}
 	
 }
+

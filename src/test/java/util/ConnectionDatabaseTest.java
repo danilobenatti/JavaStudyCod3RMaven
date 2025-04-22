@@ -89,7 +89,7 @@ class ConnectionDatabaseTest {
 			float height, Date borndate, Date deathdate) {
 		Person person = person().name(firstname).gender(gender)
 				.weight(weight).height(height)
-				.bornDate(borndate != null ? borndate.toLocalDate() : null)
+				.birthDate(borndate != null ? borndate.toLocalDate() : null)
 				.deathDate(deathdate != null ? deathdate.toLocalDate() : null)
 				.build();
 		InsertPerson(person);
@@ -113,7 +113,7 @@ class ConnectionDatabaseTest {
 						Statement.RETURN_GENERATED_KEYS)) {
 			DAO.setAttributes(pstmt, person.getName(), person.getGender(),
 					person.getWeight(), person.getHeight(),
-					person.getBornDate(), person.getDeathDate());
+					person.getBirthDate(), person.getDeathDate());
 			result = pstmt.execute();
 			ResultSet rs = pstmt.getGeneratedKeys();
 			while (rs.next()) {
@@ -158,7 +158,7 @@ class ConnectionDatabaseTest {
 				.gender(resultSet.getString("col_gender").charAt(0))
 				.weight(resultSet.getFloat("col_weight"))
 				.height(resultSet.getFloat("col_height"))
-				.bornDate(resultSet.getDate("col_borndate") != null
+				.birthDate(resultSet.getDate("col_borndate") != null
 						? resultSet.getDate("col_borndate").toLocalDate()
 						: null)
 				.deathDate(resultSet.getDate("col_deathdate") != null

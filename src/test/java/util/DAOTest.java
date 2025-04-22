@@ -28,9 +28,9 @@ class DAOTest {
 			""";
 		
 		Person p = person().name("Test").gender('M')
-				.bornDate(LocalDate.now().minus(45, ChronoUnit.YEARS)).build();
+				.birthDate(LocalDate.now().minus(45, ChronoUnit.YEARS)).build();
 		
-		int i = dao.include(sql, p.getName(), p.getGender(), p.getBornDate());
+		int i = dao.include(sql, p.getName(), p.getGender(), p.getBirthDate());
 		dao.close();
 		System.out.println(i);
 		assertTrue(i > 0);

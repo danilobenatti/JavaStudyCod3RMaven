@@ -1,7 +1,5 @@
 package model;
 
-import static java.time.format.DateTimeFormatter.ofLocalizedDate;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -9,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Date;
 import java.util.Locale;
+
+import org.apache.commons.lang3.StringUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,6 +25,13 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SuperBuilder(builderMethodName = "person")
 public class Person {
+	
+	private static final ZoneId ZONE_ID = ZoneId.systemDefault();
+	
+	private static final Locale LOCALE = Locale.getDefault();
+	
+	private static final DateTimeFormatter DTF = DateTimeFormatter
+			.ofLocalizedDate(FormatStyle.SHORT).localizedBy(LOCALE);
 	
 	@Include
 	private long id;
@@ -45,64 +52,54 @@ public class Person {
 		return Double.valueOf(this.height);
 	}
 	
-	private LocalDate bornDate;
+	private LocalDate birthDate;
 	
 	private LocalDate deathDate;
 	
-	private static final ZoneId ZONE_ID = ZoneId.systemDefault();
-	
 	public boolean isAlive() {
-		return this.bornDate != null & this.deathDate == null;
+		return getBirthDate() != null & getDeathDate() == null;
 	}
 	
 	public int getAge() {
 		LocalDate now = LocalDate.now();
-		if (!isAlive() && this.deathDate.isAfter(this.bornDate)) {
-			return Period.between(this.bornDate, this.deathDate).getYears();
-		} else if (isAlive() && this.bornDate.isBefore(now)) {
-			return Period.between(this.bornDate, now).getYears();
-		}
-		return 0;
+		if (isAlive() && getBirthDate().isBefore(now))
+			return Period.between(getBirthDate(), now).getYears();
+		else
+			return Period.between(getBirthDate(), getDeathDate()).getYears();
 	}
 	
 	public String getAgeWithSymbol() {
-		String blackStar = String.valueOf('\u2605');
-		String dagger = String.valueOf('\u2020');
-		return isAlive() ? String.valueOf(getAge()).concat(blackStar)
-				: String.valueOf(getAge()).concat(dagger);
+		char blackStar = '\u2605'; // Black Star
+		char dagger = '\u271D'; // Latin Cross
+		return isAlive() ? StringUtils.join(getAge(), blackStar)
+				: StringUtils.join(getAge(), dagger);
 	}
 	
 	public void killPersonNow() {
-		if (isAlive() && LocalDate.now().compareTo(this.bornDate) >= 0) {
-			this.deathDate = LocalDate.now(ZONE_ID);
-		}
+		if (isAlive() && LocalDate.now().compareTo(getBirthDate()) >= 0)
+			setDeathDate(LocalDate.now(ZONE_ID));
 	}
 	
 	public void killPersonAtDate(LocalDate date) {
-		if (isAlive() && date.compareTo(this.bornDate) >= 0) {
-			this.deathDate = date;
-		}
+		if (isAlive() && date.compareTo(getBirthDate()) >= 0)
+			setDeathDate(date);
 	}
 	
 	public void killPersonAtDate(Date date) {
 		LocalDate killDate = date.toInstant().atZone(ZoneId.systemDefault())
 				.toLocalDate();
-		if (isAlive() && killDate.compareTo(this.bornDate) >= 0) {
-			this.deathDate = killDate;
-		}
+		if (isAlive() && killDate.compareTo(getBirthDate()) >= 0)
+			setDeathDate(killDate);
 	}
 	
 	public void killPersonAtDate(Date date, ZoneId zoneid) {
 		LocalDate killDate = date.toInstant().atZone(zoneid).toLocalDate();
-		if (isAlive() && killDate.compareTo(this.bornDate) >= 0) {
-			this.deathDate = killDate;
-		}
+		if (isAlive() && killDate.compareTo(getBirthDate()) >= 0)
+			setDeathDate(killDate);
 	}
 	
 	@Override
 	public String toString() {
-		DateTimeFormatter dtf = ofLocalizedDate(FormatStyle.SHORT)
-				.localizedBy(Locale.getDefault());
 		StringBuilder builder = new StringBuilder();
 		builder.append("Person [id=");
 		builder.append(id);
@@ -115,9 +112,9 @@ public class Person {
 		builder.append(", height=");
 		builder.append(height);
 		builder.append(", bornDate=");
-		builder.append(bornDate != null ? bornDate.format(dtf) : null);
+		builder.append(birthDate != null ? birthDate.format(DTF) : null);
 		builder.append(", deathDate=");
-		builder.append(deathDate != null ? deathDate.format(dtf) : null);
+		builder.append(deathDate != null ? deathDate.format(DTF) : null);
 		builder.append("]");
 		return builder.toString();
 	}

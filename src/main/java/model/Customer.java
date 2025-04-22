@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder.Default;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class Customer extends Person {
 	@Include
 	private String email;
 	
-	@Default
+	@Builder.Default
 	private boolean isGoodPayer = true;
 	
 	private LocalDate lastPurchaseDate;

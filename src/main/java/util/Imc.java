@@ -8,6 +8,8 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import model.Person;
+
 /**
  * Class for calculating the Body Mass Index (BMI). Based on the individual's
  * weight, height and gender.
@@ -17,15 +19,31 @@ import java.util.Locale;
  */
 public class Imc {
 	
-	static final String UNDER_WEIGHT = "under weight";
-	static final String AT_IDEAL_WEIGHT = "at ideal weight";
-	static final String A_LITTLE_OVERWEIGHT = "a little overweight";
-	static final String OVER_IDEAL_WEIGHT = "over ideal weight";
-	static final String OBESITY = "obesity";
+	public static final String UNDER_WEIGHT = "under weight";
+	public static final String AT_IDEAL_WEIGHT = "at ideal weight";
+	public static final String A_LITTLE_OVERWEIGHT = "a little overweight";
+	public static final String OVER_IDEAL_WEIGHT = "over ideal weight";
+	public static final String OBESITY = "obesity";
 	
 	static final NumberFormat nf = NumberFormat.getInstance(Locale.ROOT);
 	
 	private Imc() {
+	}
+	
+	/**
+	 * Method that calculates the <b>body mass index</b> (BMI).
+	 * 
+	 * @param Person object
+	 * @return value Double BMI value.
+	 */
+	public static double calcImc(Person p) {
+		if (p.getWeight() > 0 && p.getHeight() > 0) {
+			RoundingMode roundMode = RoundingMode.HALF_EVEN;
+			return BigDecimal.valueOf(p.getWeight())
+					.divide(BigDecimal.valueOf(p.getHeight()).pow(2), roundMode)
+					.setScale(1, roundMode).doubleValue();
+		}
+		return 0;
 	}
 	
 	/**
@@ -37,17 +55,16 @@ public class Imc {
 	 */
 	public static double calcImc(double weight, double height) {
 		if (weight > 0 && height > 0) {
-			RoundingMode roundingMode = RoundingMode.HALF_EVEN;
+			RoundingMode roundMode = RoundingMode.HALF_EVEN;
 			return BigDecimal.valueOf(weight)
-					.divide(BigDecimal.valueOf(height).pow(2), roundingMode)
-					.setScale(1, roundingMode).doubleValue();
+					.divide(BigDecimal.valueOf(height).pow(2), roundMode)
+					.setScale(1, roundMode).doubleValue();
 		}
 		return 0;
 	}
 	
 	/**
-	 * @deprecated
-	 * Method that calculates the <b>body mass index</b> (BMI).
+	 * @deprecated Method that calculates the <b>body mass index</b> (BMI).
 	 * 
 	 * @param weight Person's weight in kilograms.
 	 * @param height Height of the person in meters.
@@ -68,6 +85,26 @@ public class Imc {
 	 * Method that calculates the <b>body mass index</b> (BMI) by the
 	 * individual's gender.
 	 * 
+	 * @param Person object
+	 * @return info BMI calculation information.
+	 * @throws info NullPointException
+	 */
+	public static String imcByGender(Person p) {
+		double weight = p.getWeight();
+		double height = p.getHeight();
+		return switch (p.getGender()) {
+			// 'f' or 'F'
+			case '\u0066', '\u0046' -> femaleImc(calcImc(weight, height));
+			// 'm' or 'M'
+			case '\u006D', '\u004D' -> maleImc(calcImc(weight, height));
+			default -> null;
+		};
+	}
+	
+	/**
+	 * Method that calculates the <b>body mass index</b> (BMI) by the
+	 * individual's gender.
+	 * 
 	 * @param weight Person's weight in kilograms.
 	 * @param height Height of the person in meters.
 	 * @param sex    Gender of the person, male or female only.
@@ -77,17 +114,18 @@ public class Imc {
 	 */
 	public static String imcByGender(double weight, double height, char sex) {
 		return switch (sex) {
+			// 'f' or 'F'
 			case '\u0066', '\u0046' -> femaleImc(calcImc(weight, height));
+			// 'm' or 'M'
 			case '\u006D', '\u004D' -> maleImc(calcImc(weight, height));
 			default -> null;
 		};
 	}
 	
 	/**
-	 * @deprecated
-	 * Method that calculates the <b>body mass index</b> (BMI) by the
-	 * individual's gender.
-	 * 
+	 * @deprecated Method that calculates the <b>body mass index</b> (BMI) by
+	 *             the individual's gender.
+	 * 			
 	 * @param weight Person's weight in kilograms.
 	 * @param height Height of the person in meters.
 	 * @param sex    Gender of the person, male or female only.

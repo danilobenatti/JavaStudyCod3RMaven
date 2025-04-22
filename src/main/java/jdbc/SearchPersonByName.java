@@ -33,7 +33,7 @@ public class SearchPersonByName {
 						.gender(set.getString("col_gender").charAt(0))
 						.weight(set.getFloat("col_weight"))
 						.height(set.getFloat("col_height"))
-						.bornDate(set.getDate("col_borndate") != null
+						.birthDate(set.getDate("col_borndate") != null
 								? set.getDate("col_borndate").toLocalDate()
 								: null)
 						.deathDate(set.getDate("col_deathdate") != null

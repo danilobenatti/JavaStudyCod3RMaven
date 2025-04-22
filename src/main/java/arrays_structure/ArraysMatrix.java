@@ -1,72 +1,71 @@
 package arrays_structure;
 
 import static java.lang.Float.parseFloat;
+import static org.apache.commons.lang3.StringUtils.joinWith;
 
+import java.io.PrintWriter;
 import java.util.Locale;
+import java.util.Locale.Builder;
 import java.util.Scanner;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
 
 public class ArraysMatrix {
 	
-	static Logger log = LogManager.getLogger();
-	
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
-		Configurator.initialize(ArraysMatrix.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
+		
+		Builder buildLocale = new Locale.Builder();
+		Locale localeBR = buildLocale.setLanguage("pt").setRegion("BR").build();
 		
 		float[][] students;
 		/**
-		 * float[][] students = { { Students }, { Grades } };
+		 * float[][] students = { { Grades }, { Grades } };
 		 */
 		
-		try (Scanner sc = new Scanner(System.in)
-				.useLocale(Locale.of("pt", "BR"))) {
-			log.info("How many students?");
-			int numberOfStudents = Integer.parseInt(sc.next().strip());
-			log.info("How many grades per student?");
-			int numberOfGrades = Integer.parseInt(sc.next().strip());
+		try (Scanner scan = new Scanner(System.in).useLocale(localeBR)) {
+			console.println("How many students?");
+			int numberOfStudents = Integer.parseInt(scan.next().strip());
+			console.println("How many grades per student?");
+			int numberOfGrades = Integer.parseInt(scan.next().strip());
 			
 			students = new float[numberOfStudents][numberOfGrades];
 			
 			int i = 0;
 			for (float[] student : students) {
-				String msg = String.format("Student %d%n", i + 1);
-				log.info(msg);
+				console.println(joinWith("\s", "Student", i + 1));
 				int j = 0;
 				for (float grade : student) {
-					msg = String.format("Grade %d: ", j + 1);
-					log.info(msg);
-					students[i][j] = parseFloat(sc.next().replace(',', '.'));
+					console.println(joinWith("\s", "Grade", j + 1));
+					students[i][j] = parseFloat(scan.next().replace(',', '.'));
 					j++;
 				}
 				i++;
 			}
+			
+			scan.reset();
+			scan.close();
+			
 		}
 		
-		int i = 0;
-		var avgTotal = 0F;
+		float sumOfAverages = 0f;
 		for (float[] student : students) {
-			int j = 0;
-			var sum = 0F;
+			float sum = 0f;
 			for (float grade : student) {
 				sum += grade;
-				j++;
 			}
-			var avgByStudent = (j > 0) ? sum / j : sum;
-			avgTotal += avgByStudent;
-			String msg = String.format("Student %d average = %.1f%n", i + 1,
-					avgByStudent);
-			log.info(msg);
-			i++;
+			float avg = sum / student.length;
+			
+			console.println(joinWith("\s", "Student", student, "average", avg));
+			
+			sumOfAverages += avg;
 		}
 		
-		log.info("Geral average = {}", avgTotal / ((i > 0) ? i : 1));
+		float generalAverage = sumOfAverages / students.length;
 		
+		console.println(joinWith("\s", "General average", generalAverage));
+		
+		console.flush();
+		console.close();
 	}
 	
 }

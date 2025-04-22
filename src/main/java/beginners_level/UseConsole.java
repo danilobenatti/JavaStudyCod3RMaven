@@ -28,7 +28,7 @@ public class UseConsole {
 			log.info("Inform weight[Ex. 68.7}]: ");
 			p.setWeight(Float.parseFloat(scanner.nextLine().replace(',', '.')));
 			
-			p.setBornDate(LocalDate.now().minusYears(27));
+			p.setBirthDate(LocalDate.now().minusYears(27));
 			p.setDeathDate(LocalDate.now());
 			
 		}

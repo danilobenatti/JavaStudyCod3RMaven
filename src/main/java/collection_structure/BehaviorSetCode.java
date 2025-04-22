@@ -1,5 +1,6 @@
 package collection_structure;
 
+import java.io.PrintWriter;
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
 import java.util.HashSet;
@@ -8,18 +9,11 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
-
 public class BehaviorSetCode {
-	
-	static Logger log = LogManager.getLogger();
 	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(BehaviorSetCode.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
 		Set<String> set = new HashSet<>();
 		set.add("Anna");
@@ -28,8 +22,9 @@ public class BehaviorSetCode {
 		set.add("Esven");
 		
 		for (String str : set) {
-			log.info(str);
+			console.println(str);
 		}
+		console.println();
 		
 		SortedSet<String> sortedSet = new TreeSet<>();
 		sortedSet.add("Anna");
@@ -38,8 +33,9 @@ public class BehaviorSetCode {
 		sortedSet.add("Esven");
 		
 		for (String str : sortedSet) {
-			log.info(str);
+			console.println(str);
 		}
+		console.println();
 		
 		Set<Integer> dayWeek = new TreeSet<>();
 		dayWeek.add(DayOfWeek.SUNDAY.getValue());
@@ -51,15 +47,18 @@ public class BehaviorSetCode {
 		dayWeek.add(DayOfWeek.SATURDAY.getValue());
 		
 		for (Integer integer : dayWeek) {
-			log.info(() -> DayOfWeek.of(integer).getDisplayName(TextStyle.FULL,
+			console.println(DayOfWeek.of(integer).getDisplayName(TextStyle.FULL,
 					Locale.getDefault()));
 		}
+		console.println();
 		
 		for (Integer integer : dayWeek) {
-			log.info(() -> DayOfWeek.of(integer).getDisplayName(TextStyle.FULL,
-					Locale.of("en", "US")));
+			console.println(DayOfWeek.of(integer).getDisplayName(TextStyle.FULL,
+					Locale.of("pt", "BR")));
 		}
+		console.println();
 		
+		console.close();
 	}
 	
 }
