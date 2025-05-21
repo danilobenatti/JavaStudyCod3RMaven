@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 
 import model.Customer;
+import model.util.PersonUtil;
 
 public class EqualsHashCode {
 	
@@ -11,20 +12,23 @@ public class EqualsHashCode {
 		
 		PrintWriter console = new PrintWriter(System.out, true);
 		
-		var c1 = Customer.customer().id(1).name("John").email("john@mail.com")
+		Customer c1 = Customer.customer().id(1L).name("John").gender('M')
+				.email("john@mail.com")
 				.birthDate(LocalDate.now().minusYears(47)).build();
-		c1.killPersonNow();
+		PersonUtil.personDiedNow(c1);
 		
 		Customer c2 = c1;
-		c2.setName("John");
+		c2.setName("John2");
 		c2.setEmail("jhon99@mail.com");
 		c2.setGoodPayer(false);
-		//c2.setBornDate(LocalDate.now().minusYears(32).minusMonths(5));
+		c2.setBirthDate(LocalDate.now().minusYears(32).minusMonths(5));
 		
 		Customer c3 = new Customer();
-		c3.setId(1);
+		c3.setId(1L);
 		c3.setName("Jhon");
 		c3.setEmail("jhon@email.com");
+		c3.setLastPurchaseDate(LocalDate.now().minusMonths(2));
+		c3.setBirthDate(LocalDate.now().minusYears(28).minusMonths(8));
 		
 		console.printf("1) %s%n", c1);
 		console.printf("2) %s%n", c2);

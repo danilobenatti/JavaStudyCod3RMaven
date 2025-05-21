@@ -2,7 +2,7 @@ package oo.composition;
 
 public class Car {
 	
-	Motor motor;
+	final Motor motor;
 	
 	Car() {
 		this.motor = new Motor(this);

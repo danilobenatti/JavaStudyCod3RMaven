@@ -1,5 +1,6 @@
 package streams;
 
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -14,25 +15,22 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.stream.Stream;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.commons.lang3.StringUtils;
 
 import model.Person;
+import model.Student;
+import model.util.PersonUtil;
 
 public class StartWithStream {
 	
-	static Logger log = LogManager.getLogger();
-	static ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
-	static TimeZone timeZone = TimeZone.getTimeZone(zoneId);
-	static ZonedDateTime zonedDateTime = ZonedDateTime.now(zoneId);
-	static Locale aLocale = Locale.of("pt", "BR");
+	static final ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
+	static final TimeZone timeZone = TimeZone.getTimeZone(zoneId);
+	static final ZonedDateTime zonedDateTime = ZonedDateTime.now(zoneId);
+	static final Locale aLocale = Locale.of("pt", "BR");
 	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(StartWithStream.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
 		DateFormat dfPtBR = DateFormat.getDateTimeInstance(DateFormat.FULL,
 				DateFormat.FULL, aLocale);
@@ -40,39 +38,39 @@ public class StartWithStream {
 				DateFormat.FULL, Locale.of("en", "US"));
 		
 		Instant instant = new GregorianCalendar(timeZone, aLocale).toInstant();
+		Date date = Date.from(instant);
 		
-		log.printf(Level.INFO, "%s", dfPtBR.format(Date.from(instant)));
-		log.printf(Level.INFO, "%s", dfEnUS.format(Date.from(instant)));
-		log.printf(Level.INFO, "%s%n",
-				zonedDateTime.getChronology().getCalendarType());
+		console.printf("%s%n", dfPtBR.format(date));
+		console.printf("%s%n", dfEnUS.format(date));
+		console.printf("%s%n", zonedDateTime.getChronology().getCalendarType());
 		
-		Person p = new Person(1, "Peter Parker", 'M', 78.8F, 1.73F,
+		Person p = new Student(1L, "Peter Parker", 'M', 78.8F, 1.73F,
 				LocalDate.now().minusYears(17), null);
 		
-		List<Object> list = Arrays.asList("Tue", 'M', 1, 1F, 1.0E1,
-				Date.from(instant), p, p.getAgeWithSymbol());
+		List<Object> list = Arrays.asList("Tue", 'M', 1, 1F, 1.0E1, date, p,
+				PersonUtil.getAgeWithSymbol(p));
 		
 		Iterator<Object> iterator = list.iterator();
 		while (iterator.hasNext()) {
-			log.printf(Level.INFO, "with While: %s", iterator.next());
+			console.println(StringUtils.join("with While: ", iterator.next()));
 		}
 		
 		for (Object object : list) {
-			log.printf(Level.INFO, "with For: %s", msg(object));
+			console.println(StringUtils.join("with For: ", msg(object)));
 		}
 		
 		Stream<Object> stream = list.stream();
 		
-		stream.forEach(o -> log.info(msg(o)));
+		stream.forEach(o -> console.println(msg(o)));
 		
-		list.stream().forEach(o -> log.info(msg(o)));
+		list.stream().forEach(o -> console.println(msg(o)));
 		
-		list.iterator().forEachRemaining(o -> log.info(msg(o)));
+		list.iterator().forEachRemaining(o -> console.println(msg(o)));
 		
 	}
 	
 	static String msg(Object obj) {
-		return new StringBuilder().append(obj).append(" - ")
-				.append(obj.getClass().getSimpleName()).append("\n").toString();
+		return new StringBuilder().append(obj).append(" -> ")
+				.append(obj.getClass().getSimpleName()).toString();
 	}
 }

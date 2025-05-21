@@ -7,6 +7,8 @@ import java.util.Random;
 import java.util.StringJoiner;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class StructureWhile {
 	
 	static PrintWriter console = new PrintWriter(System.out, true);
@@ -31,6 +33,8 @@ public class StructureWhile {
 			i++;
 		}
 		message(i, FIND);
+		message_(i, FIND);
+		message__(i, FIND);
 		
 		// solution 2
 		int k = 0;
@@ -39,7 +43,7 @@ public class StructureWhile {
 			l = new Random().nextInt(max - min + 1);
 			k++;
 		} while (l != FIND);
-		message_(k, FIND);
+		message__(k, FIND);
 		
 		// between the origin (inclusive) and the bound (exclusive)
 		console.println("Random[0 - 100]: " + new Random().nextInt(0, 101));
@@ -51,7 +55,6 @@ public class StructureWhile {
 			console.println(v);
 		}
 		
-		console.flush();
 		console.close();
 	}
 	
@@ -65,5 +68,10 @@ public class StructureWhile {
 		console.println(new StringJoiner("\s").add("Loop")
 				.add(String.valueOf(i)).add("times until finding nº")
 				.add(String.valueOf(find)));
+	}
+	
+	public static void message__(int i, int find) {
+		console.println(StringUtils.joinWith("\s", "Loop", i,
+				"times until finding nºX").replace("X", Integer.toString(find)));
 	}
 }

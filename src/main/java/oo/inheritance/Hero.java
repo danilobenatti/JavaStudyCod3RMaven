@@ -7,10 +7,10 @@ public class Hero extends Player {
 	}
 	
 	@Override
-	boolean atack(Player otherPlayer) {
-		boolean atack1 = super.atack(otherPlayer);
-		boolean atack2 = super.atack(otherPlayer);
-		boolean atack3 = super.atack(otherPlayer);
+	boolean atack(Player other) {
+		boolean atack1 = super.atack(other);
+		boolean atack2 = super.atack(other);
+		boolean atack3 = super.atack(other);
 		return atack1 || atack2 || atack3;
 	}
 	

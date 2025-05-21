@@ -1,17 +1,21 @@
 package oo.inheritance;
 
+import java.io.PrintWriter;
+
 public class Game {
 	
 	public static void main(String[] args) {
 		
-		var villain = new Villain();
+		PrintWriter console = new PrintWriter(System.out, true);
+		
+		Villain villain = new Villain();
 		villain.x = 10;
 		villain.y = 10;
 		
-		var hero = new Hero(10, 11);
+		Player hero = new Hero(10, 11);
 		
-		System.out.println(msg(villain));
-		System.out.println(msg(hero));
+		console.println(info(villain));
+		console.println(info(hero));
 		
 		villain.atack(hero);
 		hero.atack(villain);
@@ -22,15 +26,19 @@ public class Game {
 		villain.walk(Direction.NORTH);
 		villain.atack(hero);
 		hero.atack(villain);
+		hero.walk(Direction.EAST);
 		
-		System.out.println(msg(villain));
-		System.out.println(msg(hero));
+		console.println(info(villain));
+		console.println(info(hero));
+		
+		console.close();
 	}
 	
-	private static String msg(Player player) {
+	private static String info(Player player) {
+		String msg = "%s Life(Position): %d(%d, %d)";
 		return switch (player) {
-			case Hero h -> String.format("Hero Life: %d", h.life);
-			case Villain v -> String.format("Villain Life: %d", v.life);
+			case Hero h -> String.format(msg, "Hero", h.life, h.x, h.y);
+			case Villain v -> String.format(msg, "Villain", v.life, v.x, v.y);
 			default -> throw new IllegalArgumentException(
 					"Unexpected value: " + player);
 		};

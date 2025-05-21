@@ -1,44 +1,36 @@
 package model;
 
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Date;
-import java.util.Locale;
-
-import org.apache.commons.lang3.StringUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.EqualsAndHashCode.Include;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import model.util.PersonUtil;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SuperBuilder(builderMethodName = "person")
 public class Person {
 	
-	private static final ZoneId ZONE_ID = ZoneId.systemDefault();
+	@NonNull
+	@EqualsAndHashCode.Include
+	private Long id;
 	
-	private static final Locale LOCALE = Locale.getDefault();
-	
-	private static final DateTimeFormatter DTF = DateTimeFormatter
-			.ofLocalizedDate(FormatStyle.SHORT).localizedBy(LOCALE);
-	
-	@Include
-	private long id;
-	
+	@NonNull
 	private String name;
 	
-	private char gender;
+	@NonNull
+	private Character gender;
 	
 	private float weight;
 	
@@ -52,54 +44,24 @@ public class Person {
 		return Double.valueOf(this.height);
 	}
 	
+	@NonNull
 	private LocalDate birthDate;
+	
+	public void setBirthDate(LocalDate date) {
+		if (date.compareTo(LocalDate.now()) <= 0)
+			this.birthDate = date;
+	}
 	
 	private LocalDate deathDate;
 	
-	public boolean isAlive() {
-		return getBirthDate() != null & getDeathDate() == null;
-	}
-	
-	public int getAge() {
-		LocalDate now = LocalDate.now();
-		if (isAlive() && getBirthDate().isBefore(now))
-			return Period.between(getBirthDate(), now).getYears();
-		else
-			return Period.between(getBirthDate(), getDeathDate()).getYears();
-	}
-	
-	public String getAgeWithSymbol() {
-		char blackStar = '\u2605'; // Black Star
-		char dagger = '\u271D'; // Latin Cross
-		return isAlive() ? StringUtils.join(getAge(), blackStar)
-				: StringUtils.join(getAge(), dagger);
-	}
-	
-	public void killPersonNow() {
-		if (isAlive() && LocalDate.now().compareTo(getBirthDate()) >= 0)
-			setDeathDate(LocalDate.now(ZONE_ID));
-	}
-	
-	public void killPersonAtDate(LocalDate date) {
-		if (isAlive() && date.compareTo(getBirthDate()) >= 0)
-			setDeathDate(date);
-	}
-	
-	public void killPersonAtDate(Date date) {
-		LocalDate killDate = date.toInstant().atZone(ZoneId.systemDefault())
-				.toLocalDate();
-		if (isAlive() && killDate.compareTo(getBirthDate()) >= 0)
-			setDeathDate(killDate);
-	}
-	
-	public void killPersonAtDate(Date date, ZoneId zoneid) {
-		LocalDate killDate = date.toInstant().atZone(zoneid).toLocalDate();
-		if (isAlive() && killDate.compareTo(getBirthDate()) >= 0)
-			setDeathDate(killDate);
+	public void setDeathDate(LocalDate date) {
+		if (date.compareTo(getBirthDate()) >= 0)
+			this.deathDate = date;
 	}
 	
 	@Override
 	public String toString() {
+		DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 		StringBuilder builder = new StringBuilder();
 		builder.append("Person [id=");
 		builder.append(id);
@@ -107,14 +69,16 @@ public class Person {
 		builder.append(name);
 		builder.append(", gender=");
 		builder.append(gender);
+		builder.append(", age=");
+		builder.append(PersonUtil.getAgeWithSymbol(this));
 		builder.append(", weight=");
 		builder.append(weight);
 		builder.append(", height=");
 		builder.append(height);
 		builder.append(", bornDate=");
-		builder.append(birthDate != null ? birthDate.format(DTF) : null);
+		builder.append(birthDate != null ? getBirthDate().format(dtf) : null);
 		builder.append(", deathDate=");
-		builder.append(deathDate != null ? deathDate.format(DTF) : null);
+		builder.append(deathDate != null ? getDeathDate().format(dtf) : null);
 		builder.append("]");
 		return builder.toString();
 	}

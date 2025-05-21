@@ -26,13 +26,13 @@ public class StringTreeSet {
 		for (String str : set)
 			console.println(str);
 		
-		Person p1 = Person.person().id(1).name("Cloe").gender('F')
+		Person p1 = Person.person().id(1L).name("Cloe").gender('F')
 				.birthDate(LocalDate.of(2015, Month.MAY, 1)).build();
-		Person p2 = Person.person().id(2).name("Peter").gender('M')
+		Person p2 = Person.person().id(2L).name("Peter").gender('M')
 				.birthDate(LocalDate.of(2010, Month.NOVEMBER, 15)).build();
-		Person p3 = Person.person().id(3).name("Bethy").gender('F')
+		Person p3 = Person.person().id(3L).name("Bethy").gender('F')
 				.birthDate(LocalDate.of(2020, Month.JANUARY, 21)).build();
-		Person p4 = Person.person().id(4).name("John").gender('M')
+		Person p4 = Person.person().id(4L).name("John").gender('M')
 				.birthDate(LocalDate.of(2007, Month.SEPTEMBER, 30)).build();
 		
 		SortedSet<Person> approved = new TreeSet<>(new PersonCompareByName());

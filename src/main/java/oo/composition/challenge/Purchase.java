@@ -16,41 +16,50 @@ public class Purchase {
 	
 	private static final ZoneId ZONE_ID = ZoneId.systemDefault();
 	
-	Date date;
+	private Date date;
 	
 	List<Item> items = new ArrayList<>();
 	
-	Purchase(Date date) {
+	public Purchase(Date date) {
 		this.date = date;
 	}
 	
-	LocalDate getDate() {
-		return ofInstant(this.date.toInstant(), ZONE_ID);
+	public Date getDate() {
+		return date;
 	}
 	
-	Year getYear() {
-		return Year.of(ofInstant(this.date.toInstant(), ZONE_ID).getYear());
+	public List<Item> getItems() {
+		return items;
 	}
 	
-	Month getMonth() {
-		return ofInstant(this.date.toInstant(), ZONE_ID).getMonth();
+	LocalDate getPurchaseDate() {
+		return ofInstant(getDate().toInstant(), ZONE_ID);
+	}
+	
+	Year getPurchaseYear() {
+		return Year.of(ofInstant(getDate().toInstant(), ZONE_ID).getYear());
+	}
+	
+	Month getPurchaseMonth() {
+		return ofInstant(getDate().toInstant(), ZONE_ID).getMonth();
 	}
 	
 	void addItem(Product product, int quantity) {
-		this.items.add(new Item(product, quantity));
+		getItems().add(new Item(product, quantity));
 	}
 	
 	void addItem(String description, double price, int quantity) {
-		this.items.add(new Item(new Product(description, price), quantity));
+		Product product = new Product(description, price);
+		getItems().add(new Item(product, quantity));
 	}
 	
 	void addItems(List<Item> items) {
-		this.items.addAll(items);
+		getItems().addAll(items);
 	}
 	
 	double getTotal() {
 		return (BigDecimal.valueOf(
-				this.items.stream().mapToDouble(Item::getSubTotal).sum()))
+				getItems().stream().mapToDouble(Item::getSubTotal).sum()))
 				.setScale(2, RoundingMode.HALF_EVEN).doubleValue();
 	}
 }

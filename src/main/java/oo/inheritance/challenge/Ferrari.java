@@ -1,14 +1,14 @@
 package oo.inheritance.challenge;
 
-public class Ferrari extends Car {
+public class Ferrari extends Car implements SportsCar {
 	
-	public Ferrari() {
+	Ferrari() {
 		this(315);
 	}
 	
 	Ferrari(int speedMax) {
 		super(speedMax);
-		delta = 15;
+		setDelta(15);
 	}
 	
 	@Override
@@ -24,4 +24,15 @@ public class Ferrari extends Car {
 			super.speed = 0;
 		}
 	}
+	
+	@Override
+	public void turboUp() {
+		setDelta(35);
+	}
+	
+	@Override
+	public void turboDown() {
+		setDelta(15);
+	}
+	
 }

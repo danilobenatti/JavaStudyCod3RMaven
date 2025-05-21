@@ -2,7 +2,7 @@ package oo.inheritance.challenge;
 
 public class Car {
 	
-	int delta = 5;
+	private int delta = 5;
 	
 	final int speedMax;
 	
@@ -27,6 +27,14 @@ public class Car {
 			this.speed = 0;
 		}
 		
+	}
+	
+	public int getDelta() {
+		return delta;
+	}
+	
+	public void setDelta(int delta) {
+		this.delta = delta;
 	}
 	
 	@Override

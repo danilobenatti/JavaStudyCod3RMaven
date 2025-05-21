@@ -12,51 +12,57 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Client {
 	
-	String name;
+	private String name;
 	
-	List<Purchase> purchases = new ArrayList<>();
+	private List<Purchase> purchases = new ArrayList<>();
 	
 	Client(String name) {
 		this.name = name;
 	}
 	
 	void addPurchase(Purchase purchases) {
-		this.purchases.add(purchases);
+		getPurchases().add(purchases);
 	}
 	
 	void addPurchases(List<Purchase> purchases) {
-		this.purchases.addAll(purchases);
+		getPurchases().addAll(purchases);
 	}
 	
 	double getTotal() {
-		return this.purchases.stream().mapToDouble(p -> p.getTotal()).sum();
+		return getPurchases().stream().mapToDouble(p -> p.getTotal()).sum();
 	}
 	
 	Map<LocalDate, Double> getTotalByDate() {
-		return this.purchases.stream()
-				.collect(Collectors.groupingBy(Purchase::getDate,
+		return getPurchases().stream()
+				.collect(Collectors.groupingBy(Purchase::getPurchaseDate,
 						Collectors.summingDouble(Purchase::getTotal)));
 	}
 	
 	Map<Pair<Year, Month>, Double> getTotalByYearAndMonth() {
-		return this.purchases.stream()
+		return getPurchases().stream()
 				.collect(Collectors.groupingBy(
-						p -> new ImmutablePair<>(p.getYear(), p.getMonth()),
+						p -> new ImmutablePair<>(p.getPurchaseYear(), p.getPurchaseMonth()),
 						Collectors.summingDouble(Purchase::getTotal)));
 	}
 	
 	Map<YearMonth, Double> getTotalByYearMonth(Year year, Month month) {
-		return this.purchases.stream().filter(
-				p -> p.getYear().equals(year) && p.getMonth().equals(month))
+		return getPurchases().stream().filter(
+				p -> p.getPurchaseYear().equals(year) && p.getPurchaseMonth().equals(month))
 				.collect(Collectors.groupingBy(p -> year.atMonth(month),
 						Collectors.summingDouble(Purchase::getTotal)));
 	}
 	
 	double getTotalByYearAndMonth(Year year, Month month) {
-		return this.purchases.stream().filter(
-				p -> p.getYear().equals(year) && p.getMonth().equals(month))
+		return getPurchases().stream().filter(
+				p -> p.getPurchaseYear().equals(year) && p.getPurchaseMonth().equals(month))
 				.collect(Collectors.summingDouble(Purchase::getTotal));
 	}
+	
 }

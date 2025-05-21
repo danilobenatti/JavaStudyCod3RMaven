@@ -1,10 +1,14 @@
 package model;
 
+import java.time.LocalDate;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import model.util.PersonUtil;
 import util.Imc;
 
 @Getter
@@ -14,41 +18,52 @@ import util.Imc;
 @SuperBuilder(builderMethodName = "student")
 public class Student extends Person {
 	
-	private String name;
-	private char gender;
-	@SuppressWarnings("unused")
-	private int age;
 	private double average;
 	private boolean goodBehavior;
 	
-	public Student(String name, char gender, int age, double average) {
-		this.name = name;
-		this.gender = gender;
-		this.age = age;
-		this.average = average;
+	public Student(String name, Character gender, double average) {
+		setName(name);
+		setGender(gender);
+		setAverage(average);
 	}
 	
-	@Override
 	public int getAge() {
-		return super.getAge();
+		return PersonUtil.getAge(this);
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Student [");
-		builder.append(name);
+		builder.append(super.getName());
 		builder.append(", ");
-		builder.append(gender);
+		builder.append(super.getGender());
 		builder.append(", ");
-		builder.append(super.getAgeWithSymbol());
+		builder.append(PersonUtil.getAgeWithSymbol(this));
 		builder.append(", ");
-		builder.append(average);
+		builder.append(this.average);
 		builder.append(", ");
-		builder.append(goodBehavior);
+		builder.append(this.goodBehavior);
 		builder.append(", ");
 		builder.append(Imc.imcByGender(this));
 		builder.append("]");
 		return builder.toString();
+	}
+
+	public Student(@NonNull Long id, @NonNull String name,
+			@NonNull Character gender, float weight, float height,
+			@NonNull LocalDate birthDate, LocalDate deathDate) {
+		super(id, name, gender, weight, height, birthDate, deathDate);
+		this.average = getAverage();
+		this.goodBehavior = isGoodBehavior();
+	}
+
+	public Student(@NonNull Long id, @NonNull String name,
+			@NonNull Character gender, @NonNull LocalDate birthDate) {
+		super(id, name, gender, birthDate);
+	}
+
+	public Student(PersonBuilder<?, ?> b) {
+		super(b);
 	}
 }

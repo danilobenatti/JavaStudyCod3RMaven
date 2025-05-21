@@ -27,7 +27,7 @@ public class StructureSwitch {
 		Student s1 = new Student();
 		s1.setName("Steve");
 		
-		List<Object> list = new ArrayList<>();
+		List<Person> list = new ArrayList<>();
 		list.add(e1);
 		list.add(c1);
 		list.add(p1);
@@ -35,20 +35,16 @@ public class StructureSwitch {
 		
 		list.forEach(o -> console.println(whoIs(o)));
 		
-		console.flush();
 		console.close();
 		
 	}
 	
 	private static String whoIs(Object obj) {
 		return switch (obj) {
-			case Employed e -> new StringBuilder().append("Is Employed: ")
-					.append(e.getName()).toString();
-			case Customer c -> new StringJoiner("\s").add("Is Customer:")
-					.add(c.getName()).toString();
+			case Employed e -> new StringBuilder().append("Is Employed: ").append(e.getName()).toString();
+			case Customer c -> new StringJoiner("\s").add("Is Customer:").add(c.getName()).toString();
 			case Student s -> String.join("\s", "Is Student:", s.getName());
-			case Person p -> StringUtils.joinWith("\s",
-					new Object[] { "Is Person:", p.getName() });
+			case Person p -> StringUtils.join("Is Person: ", p.getName());
 			default ->
 				throw new IllegalArgumentException("Unexpected value: " + obj);
 		};

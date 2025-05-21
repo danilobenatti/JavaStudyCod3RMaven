@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.Customer;
+import model.util.PersonUtil;
 
 public class MapCode {
 	
@@ -28,24 +29,27 @@ public class MapCode {
 		
 		PrintWriter console = new PrintWriter(System.out, true);
 		
-		Customer c1 = customer().id(10).name("Paul").gender('M')
+		Customer c1 = customer().id(10L).name("Paul").gender('M')
 				.birthDate(NOW.minusYears(15).minusWeeks(2)).build();
-		c1.killPersonAtDate(NOW.minusYears(2));
+//		c1.killPersonAtDate(NOW.minusYears(2));
+		PersonUtil.personDiedIn(c1, NOW.minusYears(2));
 		
-		Customer c2 = customer().id(20).name("John").gender('M')
+		Customer c2 = customer().id(20L).name("John").gender('M')
 				.birthDate(NOW.minusYears(75).minusDays(25)).build();
 		
-		Customer c3 = customer().id(30).name("Cloe").gender('F')
+		Customer c3 = customer().id(30L).name("Cloe").gender('F')
 				.birthDate(NOW.minusYears(35).minusMonths(6)).build();
-		c3.killPersonNow();
+		PersonUtil.personDiedNow(c3);
 		
-		Customer c4 = customer().id(40).name("Nany").gender('F')
+		Customer c4 = customer().id(40L).name("Nany").gender('F')
 				.birthDate(NOW.minusYears(25).minusDays(6)).build();
-		c4.killPersonAtDate(Date.from(Instant.now().minus(2, DAYS)), ZONE_ID);
+		Date c4_DateDeath = Date.from(Instant.now().minus(2, DAYS));
+		PersonUtil.personDiedIn(c4, c4_DateDeath);
 		
-		Customer c5 = customer().id(50).name("Ivan").gender('M')
+		Customer c5 = customer().id(50L).name("Ivan").gender('M')
 				.birthDate(NOW.minusYears(41).minusDays(27)).build();
-		c5.killPersonAtDate(Date.from(NOW.minusYears(4).atStartOfDay().toInstant(ZONE_OFFSET)));
+		Date c5DateDeath = Date.from(NOW.minusYears(4).atStartOfDay().toInstant(ZONE_OFFSET));
+		PersonUtil.personDiedIn(c5, c5DateDeath, ZONE_ID);
 		
 		Map<Integer, Customer> map = new HashMap<>();
 		map.put(1, c1);
@@ -79,7 +83,7 @@ public class MapCode {
 		for (Map.Entry<Integer, Customer> entry : map.entrySet()) {
 			Integer key = entry.getKey();
 			Customer customer = entry.getValue();
-			console.println(key + " - " + customer.getAgeWithSymbol());
+			console.println(key + " - " + PersonUtil.getAgeWithSymbol(customer));
 		}
 		
 		console.close();

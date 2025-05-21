@@ -47,14 +47,14 @@ public class ReduceTest2 {
 		Configurator.initialize(ReduceTest2.class.getName(),
 				"./src/main/java/util/log4j2.properties");
 		
-		Student s1 = new Student("Bia", 'F', 16, 9.5);
-		Student s2 = new Student("Luna", 'F', 18, 9.0);
-		Student s3 = new Student("Ariel", 'F', 18, 7.0);
-		Student s4 = new Student("Gui", 'M', 17, 10.0);
-		Student s5 = new Student("Peter", 'M', 16, 5.0);
-		Student s6 = new Student("Claus", 'M', 18, 7.5);
-		Student s7 = new Student("Ariel", 'F', 16, 6.0);
-		Student s8 = new Student("Joy", 'M', 17, 10.0);
+		Student s1 = new Student("Bia", 'F', 9.5);
+		Student s2 = new Student("Luna", 'F', 9.0);
+		Student s3 = new Student("Ariel", 'F', 7.0);
+		Student s4 = new Student("Gui", 'M', 10.0);
+		Student s5 = new Student("Peter", 'M', 5.0);
+		Student s6 = new Student("Claus", 'M', 7.5);
+		Student s7 = new Student("Ariel", 'F', 6.0);
+		Student s8 = new Student("Joy", 'M', 10.0);
 		
 		List<Student> list = Arrays.asList(s1, s2, s3, s4, s5, s6, s7, s8);
 		
@@ -123,7 +123,7 @@ public class ReduceTest2 {
 		
 		Map<Character, List<Student>> mapStudy = list.stream()
 				.collect(groupingBy(Student::getGender, mapping(
-						s -> new Student(s.getName(), s.getGender(), s.getAge(),
+						s -> new Student(s.getName(), s.getGender(),
 								s.getAverage()),
 						collectingAndThen(toList(), x -> x.stream()
 								.sorted(Comparator.comparing(Student::getName)

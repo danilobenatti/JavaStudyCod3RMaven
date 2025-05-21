@@ -2,7 +2,7 @@ package oo.composition;
 
 public class Motor {
 	
-	Car car;
+	final Car car;
 	
 	boolean start = false;
 	
@@ -13,6 +13,6 @@ public class Motor {
 	}
 	
 	int rpm() {
-		return !start ? 0 : (int) Math.round(injectionFactor * 3000);
+		return start ? (int) Math.round(injectionFactor * 3000) : 0;
 	}
 }

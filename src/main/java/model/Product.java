@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 public class Product {
 	
-	private static final Locale LOCALE = Locale.ROOT;
+	private static final Locale LOCALE = Locale.getDefault();
 	
 	private static final ZoneId SYSTEM_DEFAULT = ZoneId.systemDefault();
 	
@@ -91,8 +91,8 @@ public class Product {
 		return this.price * (1 - this.discount);
 	}
 	
-	public double getPriceWithDiscount(double discount) {
-		return this.price * (1 - (this.discount + discount));
+	public double getPriceWithDiscount(double addDiscount) {
+		return getPriceWithDiscount() * (1 - addDiscount);
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public class Product {
 	public boolean validityDateIsOk() {
 		if (this.validityDate != null)
 			return Date.from(Instant.now().truncatedTo(ChronoUnit.DAYS))
-					.compareTo(this.validityDate) < 0;
+					.before(this.validityDate);
 		return false;
 	}
 	
@@ -196,21 +196,21 @@ public class Product {
 		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, LOCALE);
 		StringBuilder sb = new StringBuilder();
 		sb.append("Product [name=");
-		sb.append(name);
+		sb.append(this.name);
 		sb.append(", price=");
-		sb.append(price);
+		sb.append(this.price);
 		sb.append(", discount=");
-		sb.append(discount);
+		sb.append(this.discount);
 		sb.append(", shippingCost=");
-		sb.append(shippingCost);
+		sb.append(this.shippingCost);
 		sb.append(", weight=");
-		sb.append(weight);
+		sb.append(this.weight);
 		sb.append(", sides=");
 		sb.append(Arrays.toString(sides));
 		sb.append(", manufactureDate=");
-		sb.append(manufactureDate != null ? df.format(manufactureDate) : null);
+		sb.append(this.manufactureDate != null ? df.format(this.manufactureDate) : null);
 		sb.append(", validityDate=");
-		sb.append(validityDate != null ? df.format(validityDate) : null);
+		sb.append(this.validityDate != null ? df.format(this.validityDate) : null);
 		sb.append(", validityDateIsOk=");
 		sb.append(validityDateIsOk());
 		sb.append("]");

@@ -20,7 +20,7 @@ public class Order {
 	
 	public void addItems(List<Item> items) {
 		this.items.addAll(items);
-		items.forEach(i -> i.order = this);
+		items.forEach(item -> item.order = this);
 	}
 	
 	public double getTotal() {

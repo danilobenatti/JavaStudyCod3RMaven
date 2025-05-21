@@ -6,6 +6,7 @@ public class Player {
 	int x;
 	int y;
 	
+	// Explicit Constructor Method.
 	Player(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -21,13 +22,13 @@ public class Player {
 		return true;
 	}
 	
-	boolean atack(Player otherPlayer) {
+	boolean atack(Player player) {
 		
-		int deltaX = Math.abs(x - otherPlayer.x);
-		int deltaY = Math.abs(y - otherPlayer.y);
+		int deltaX = Math.abs(x - player.x);
+		int deltaY = Math.abs(y - player.y);
 		
 		if ((deltaX == 0 && deltaY == 1) || (deltaX == 1 && deltaY == 0)) {
-			otherPlayer.life -= 10;
+			player.life -= 10;
 			return true;
 		} else {
 			return false;

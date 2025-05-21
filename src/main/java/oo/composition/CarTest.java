@@ -1,22 +1,27 @@
 package oo.composition;
 
+import java.io.PrintWriter;
+
 public class CarTest {
 	
 	public static void main(String[] args) {
 		
+		PrintWriter console = new PrintWriter(System.out, true);
+		
 		Car c1 = new Car();
-		System.out.println(c1.isItOn());
+		console.println(c1.isItOn());
 		
 		c1.turnOn();
-		System.out.println(c1.isItOn());
+		console.println(c1.isItOn());
 		
-		System.out.println(c1.motor.rpm());
+		console.println(c1.motor.rpm());
 		
 		c1.speedUp();
 		c1.speedUp();
 		c1.speedUp();
 		c1.speedUp();
-		System.out.println(c1.motor.rpm());
+		
+		console.println(c1.motor.rpm());
 		
 		c1.brake();
 		c1.brake();
@@ -26,7 +31,10 @@ public class CarTest {
 		c1.brake();
 		c1.brake();
 		c1.brake();
-		System.out.println(c1.motor.rpm());
+		
+		console.println(c1.motor.rpm());
+		
+		console.close();
 	}
 	
 }

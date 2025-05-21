@@ -5,16 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.ToString;
-import lombok.ToString.Exclude;
 
-@ToString
+@ToString()
 public class Course {
 	
-	String description;
+	@ToString.Include(name = "Name", rank = 1)
+	final String description;
+	
+	public String getDescription() {
+		return description;
+	}
 	
 	int hours;
 	
-	@Exclude
+	@ToString.Exclude
 	final List<Student> students = new ArrayList<>();
 	
 	public Course(String description, int hours) {
@@ -37,6 +41,7 @@ public class Course {
 	}
 	
 	public List<Student> listStudents() {
-		return this.students.stream().toList();
+		return this.students;
 	}
+	
 }

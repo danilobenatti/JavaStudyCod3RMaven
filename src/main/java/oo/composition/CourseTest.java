@@ -1,33 +1,29 @@
 package oo.composition;
 
 import static oo.composition.Student.totalHours;
-import static org.apache.commons.lang3.StringUtils.LF;
-import static org.apache.commons.lang3.StringUtils.joinWith;
 
+import java.io.PrintWriter;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.StringJoiner;
 import java.util.TimeZone;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.commons.lang3.StringUtils;
 
 public class CourseTest {
 	
-	static Logger log = LogManager.getLogger();
-	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(CourseTest.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
-		Calendar calendar = Calendar.getInstance(
-				TimeZone.getTimeZone("America/Sao_Paulo"),
-				Locale.of("pt", "BR"));
+		TimeZone timeZone = TimeZone.getTimeZone("America/Sao_Paulo");
+		Locale locale = Locale.of("pt", "BR");
+		Calendar calendar = Calendar.getInstance(timeZone, locale);
 		
 		calendar.set(1947, 11, 10);
 		Student s1 = new Student("Jane", Date.from(calendar.toInstant()), null);
@@ -40,25 +36,46 @@ public class CourseTest {
 		Student s3 = new Student("Paul", Date.from(calendar.toInstant()), null);
 		s3.studentDeathNow();
 		
+		calendar.set(1950, 1, 5);
+		Student s4 = new Student("Lacy", Date.from(calendar.toInstant()), null);
+		
 		Course course1 = new Course("Nature science", 50);
 		Course course2 = new Course("Financial Mathematics", 60);
 		Course course3 = new Course("Portuguese Language", 75);
 		
 		course1.addStudent(s1);
-		course2.addStudents(new ArrayList<>(Arrays.asList(s1, s2, s3)));
-		course3.addStudents(new ArrayList<>(Arrays.asList(s2, s3)));
 		
-		log.info(() -> course1.listStudents() + LF);
-		log.info(() -> course2.listStudents() + LF);
-		log.info(() -> course3.listStudents() + LF);
+		List<Student> group = new ArrayList<>(Arrays.asList(s1, s2, s3));
+		course2.addStudents(group);
 		
-		log.info(() -> String.format("%s(%s) - %d", s1.name, s1.ageWithSymbol(),
-				totalHours(s1)));
-		log.info(new StringBuilder().append(s2.name)
+		course3.addStudents(new ArrayList<>(Arrays.asList(s2, s3, s4)));
+		
+		console.println("\nCourse 1: " + course1.getDescription());
+		course1.listStudents().stream().forEach(console::println);
+		console.println("\nCourse 2: " + course2.getDescription());
+		course2.listStudents().stream().forEach(console::println);
+		console.println("\nCourse 3: " + course3.getDescription());
+		course3.listStudents().stream().forEach(s -> console.println(s.toString("format2")));
+		
+		console.println();
+		
+		console.println(String.format("%s(%s) - %d", s1.name,
+				s1.ageWithSymbol(), totalHours(s1)));
+		
+		console.println(new StringBuilder().append(s2.name)
 				.append(String.format("(%s)", s2.ageWithSymbol())).append(" - ")
 				.append(totalHours(s2)));
-		log.info(() -> joinWith(" - ",
+		
+		console.println(StringUtils.joinWith(" - ",
 				String.format("%s(%s)", s3.name, s3.ageWithSymbol()),
 				totalHours(s3)));
+		
+		StringJoiner joiner = new StringJoiner("");
+		joiner.add(s4.name).add("(" + s4.ageWithSymbol() + ") - ");
+		joiner.add(String.valueOf(totalHours(s4)));
+		console.println(joiner);
+		
+		console.close();
 	}
+	
 }

@@ -1,31 +1,27 @@
 package oo.composition;
 
-import static java.text.NumberFormat.getCurrencyInstance;
-import static oo.composition.Order.getTotal;
-
+import java.io.PrintWriter;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Locale;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
+import java.util.Locale.Builder;
 
 public class OrderTest {
 	
-	static Logger log = LogManager.getLogger();
+	static Builder builder = new Locale.Builder();
+	static final Locale US = builder.setLanguage("en").setRegion("US").build();
+	static final Locale BR = builder.setLanguage("pt").setRegion("BR").build();
 	
-	static NumberFormat cfUS = getCurrencyInstance(Locale.of("en", "US"));
-	static NumberFormat cfBR = getCurrencyInstance(Locale.of("pt", "BR"));
+	static final NumberFormat NF_US = NumberFormat.getCurrencyInstance(US);
+	static final NumberFormat NF_BR = NumberFormat.getCurrencyInstance(BR);
 	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(OrderTest.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
-		cfBR.setMaximumFractionDigits(1);
-		cfBR.setRoundingMode(RoundingMode.HALF_UP);
+		NF_BR.setMaximumFractionDigits(2);
+		NF_BR.setRoundingMode(RoundingMode.HALF_UP);
 		
 		Order order = new Order();
 		order.client = "Johny";
@@ -35,9 +31,12 @@ public class OrderTest {
 		Item item = new Item("Product 4", 1, 2.2);
 		order.addItems(Arrays.asList(item, new Item("Product 5", 1, 3)));
 		
-		log.info(order.items.size());
-		log.info(() -> cfBR.format(order.getTotal()));
-		log.info(() -> cfUS.format(getTotal(order.items)));
+		console.println(order.items.size());
+		console.println(NF_BR.format(order.items.get(0).getSubTotal()));
+		console.println(NF_BR.format(order.getTotal()));
+		console.println(NF_US.format(Order.getTotal(order.items)));
+		
+		console.close();
 	}
 	
 }

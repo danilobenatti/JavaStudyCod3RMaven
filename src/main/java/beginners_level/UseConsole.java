@@ -1,7 +1,5 @@
 package beginners_level;
 
-import static util.Imc.imcByGender;
-
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Scanner;
@@ -9,6 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import model.Person;
+import model.Student;
+import model.util.PersonUtil;
+import util.Imc;
 
 public class UseConsole {
 	
@@ -16,7 +17,7 @@ public class UseConsole {
 	
 	public static void main(String[] args) {
 		
-		Person p = new Person();
+		Person p = new Student();
 		
 		try (Scanner scanner = new Scanner(System.in).useLocale(Locale.US)) {
 			log.info("Inform name[Ex. Mary]: ");
@@ -33,8 +34,8 @@ public class UseConsole {
 			
 		}
 		
-		Object[] params = { p, p.getAgeWithSymbol(),
-			imcByGender(p.getWeight(), p.getHeight(), p.getGender()) };
+		Object[] params = { p, PersonUtil.getAgeWithSymbol(p),
+			Imc.imcByGender(p.getWeight(), p.getHeight(), p.getGender()) };
 		log.log(Level.INFO, "Info: {0}; Age: {1}; IMC = {2}", params);
 		
 	}
