@@ -1,27 +1,30 @@
 package lambda;
 
+import java.io.PrintWriter;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
-
 public class FunctionTest {
-	
-	private static Logger log = LogManager.getLogger();
 	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(FunctionTest.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
-		long n = 31;
+		int a = 32;
 		
-		Function<Long, String> isEven = t -> t % 2 == 0 ? "even" : "odd";
+		Function<Integer, String> isEvenOrOdd = t -> t % 2 == 0 ? "even" : "odd";
 		
-		UnaryOperator<String> msg = m -> String.format("Number %d is %s", n, m);
+		console.println(isEvenOrOdd.apply(a));
 		
-		log.info(() -> isEven.andThen(msg).apply(n));
+		Function<String, String> message = v -> String.format("Num. is %s", v);
+		
+		UnaryOperator<String> msg = m -> String.format("Number %d is %s", a, m);
+		
+		console.println(isEvenOrOdd.andThen(message).apply(a));
+		
+		console.println(isEvenOrOdd.andThen(msg).apply(a));
+		
+		console.close();
 	}
+	
 }

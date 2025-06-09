@@ -1,5 +1,10 @@
 package model;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.time.Instant;
 import java.time.Year;
@@ -42,6 +47,10 @@ public class Product {
 	private Date manufactureDate;
 	
 	private Date validityDate;
+	
+	public void setValidityDate(Date validityDate) {
+		this.validityDate = validityDate;
+	}
 	
 	public Product() {
 		this(1, 1, 1);
@@ -88,11 +97,21 @@ public class Product {
 	}
 	
 	public double getPriceWithDiscount() {
-		return this.price * (1 - this.discount);
+		MathContext mc = new MathContext(2, RoundingMode.HALF_EVEN);
+		
+		BigDecimal price = new BigDecimal(this.price);
+		BigDecimal discount = new BigDecimal(this.discount, mc);
+		
+		return price.subtract(price.multiply(discount))
+				.setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+		
+		// 2 decimal places
+		// return Math.round((this.price * (1 - this.discount)) * 100.0) / 100.0;
 	}
 	
 	public double getPriceWithDiscount(double addDiscount) {
-		return getPriceWithDiscount() * (1 - addDiscount);
+		// 2 decimal places
+		return Math.round((getPriceWithDiscount() * (1 - addDiscount)) * 100.0) / 100.0;
 	}
 	
 	/**
@@ -136,8 +155,7 @@ public class Product {
 	}
 	
 	public Date getValidityDateByDays(long days) {
-		return Date.from(
-				this.manufactureDate.toInstant().plus(days, ChronoUnit.DAYS));
+		return Date.from(this.manufactureDate.toInstant().plus(days, DAYS));
 	}
 	
 	public Date getValidityDateByMonths(int months) {

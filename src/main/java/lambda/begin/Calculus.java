@@ -1,4 +1,4 @@
-package lambda;
+package lambda.begin;
 
 @FunctionalInterface
 public interface Calculus {

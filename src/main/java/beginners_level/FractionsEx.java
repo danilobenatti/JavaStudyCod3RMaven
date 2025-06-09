@@ -16,8 +16,8 @@ public class FractionsEx {
 		
 		StringBuilder builder = new StringBuilder();
 		
-		BigDecimal n1 = BigDecimal.valueOf(8);
-		BigDecimal n2 = BigDecimal.valueOf(3);
+		BigDecimal n1 = BigDecimal.valueOf(7.73);
+		BigDecimal n2 = BigDecimal.valueOf(3.1);
 		
 		BigDecimal number = n1.divide(n2, 10, RoundingMode.HALF_EVEN).negate();
 		builder.append(number);
@@ -48,11 +48,12 @@ public class FractionsEx {
 		
 		builder.append(StringUtils.join("\nReduced form: "));
 		if (quotient != 0)
-			builder.append(quotient).append(StringUtils.SPACE);
+			builder.append(StringUtils.join(quotient, " "));
 		builder.append(StringUtils.join(remainder, " / ", den));
 		
 		console.println(builder);
 		
+		console.close();
 	}
 	
 }

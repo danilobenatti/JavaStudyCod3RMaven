@@ -1,46 +1,44 @@
 package lambda;
 
+import java.io.PrintWriter;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
-
 import model.Product;
+import model.util.ProductUtil;
 
 public class LambdaChallenger {
 	
-	private static final Locale IN_LOCALE = Locale.of("pt", "BR");
-	static NumberFormat cf = NumberFormat.getCurrencyInstance(IN_LOCALE);
-	
-	static Logger log = LogManager.getLogger();
+	private static final Locale LOCALE = Locale.of("pt", "BR");
+	static NumberFormat cf = NumberFormat.getCurrencyInstance(LOCALE);
 	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(LambdaChallenger.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
 		cf.setRoundingMode(RoundingMode.HALF_EVEN);
 		cf.setMaximumFractionDigits(2);
 		
 		Product product = new Product();
-		product.setName("iPad");
-		product.setPrice(3235.89);
+		product.setName("Product 1");
+		product.setPrice(3_235.89);
 		product.setDiscount(0.13);
 		
-		Function<Product, Double> calcPrice = Product::getPriceWithDiscount;
+		Function<Product, Double> calcPrice = p -> ProductUtil.getPriceWithDiscount(p, 0.025);
 		
-		UnaryOperator<Double> tax = p -> p >= 2500 ? p * 1.085 : p;
+		UnaryOperator<Double> tax = v -> v >= 2500 ? v * 1.085 : v;
 		
-		UnaryOperator<Double> taxShip = p -> p >= 3000 ? p + 100 : p + 50;
+		UnaryOperator<Double> taxShip = v -> v >= 3000 ? v + 100 : v + 50;
 		
 		Function<Double, String> currencyFormat = d -> cf.format(d);
 		
-		log.info(() -> calcPrice.andThen(tax).andThen(taxShip)
+		console.println(calcPrice.andThen(tax).andThen(taxShip)
 				.andThen(currencyFormat).apply(product));
+		
+		console.close();
 	}
+	
 }

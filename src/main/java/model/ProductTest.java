@@ -8,7 +8,6 @@ import static java.text.DateFormat.getDateTimeInstance;
 import static java.text.NumberFormat.getNumberInstance;
 import static java.time.LocalDate.ofInstant;
 import static java.util.Date.from;
-import static org.apache.commons.lang3.StringUtils.join;
 
 import java.io.PrintWriter;
 import java.math.RoundingMode;
@@ -28,11 +27,14 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import model.util.ProductUtil;
+
 public class ProductTest {
 	
 	static final Locale BR = Locale.forLanguageTag("pt-BR");
 	
-	static final Locale US = new Locale.Builder().setLanguage("en").setRegion("US").build();
+	static final Locale US = new Locale.Builder().setLanguage("en")
+			.setRegion("US").build();
 	
 	static final ZoneId ZONE_ID = ZoneId.of("America/Sao_Paulo");
 	
@@ -57,7 +59,8 @@ public class ProductTest {
 		p1.setName("Product n\u00BA1");
 		p1.setPrice(150.8);
 		p1.setWeight(1.8f);
-		p1.setManufactureDate(from(Instant.parse("2023-09-19T00:00:00.00-03:00")));
+		p1.setManufactureDate(
+				from(Instant.parse("2023-09-19T00:00:00.00-03:00")));
 		p1.setVolume(10.5f, 20.9f, 30.1f);
 		p1.setValidity(365L); // 365 days
 		p1.setDiscount(0.05);
@@ -75,7 +78,7 @@ public class ProductTest {
 		p3.setDiscount(0.15);
 		
 		List<Product> set = new ArrayList<>(Arrays.asList(p1, p2, p3));
-		set.forEach(p -> join(p.getName(), ": ", p));
+		set.forEach(p -> StringUtils.join(p.getName(), ": ", p));
 		
 		set.forEach(p -> console.println(p.getName() + ": " + getMsg1(p)));
 		set.forEach(p -> console.println(p.getName() + ": " + getMsg2(p)));
@@ -83,25 +86,24 @@ public class ProductTest {
 		set.forEach(p -> console.println(p.getName() + ": " + getMsg4(p)));
 		
 		List<Double> shopCart1 = new ArrayList<>();
-		shopCart1.add(p1.getPriceWithDiscount());
+		shopCart1.add(ProductUtil.getPriceWithDiscount(p1));
 		shopCart1.add(p2.getPriceWithDiscount(0.15)); // 15%
-		shopCart1.add(p3.getPriceWithDiscount(0.05)); // 5%
+		shopCart1.add(ProductUtil.getPriceWithDiscount(p3, 0.05)); // 5%
 		
 		shopCart1.forEach(p -> console.println(currencyFormat(p, BR)));
 		
-		double total1 = shopCart1.stream().mapToDouble(i -> i).sum();
-		console.println(join("Total1: ", currencyFormat(total1, BR)));
-		
+		double sum1 = shopCart1.stream().mapToDouble(i -> i).sum();
+		console.println(StringUtils.join("Total1: ", currencyFormat(sum1, BR)));
 		
 		TreeMap<String, Double> shopCart2 = new TreeMap<>();
-		shopCart2.put(p1.getName(), p1.getPriceWithDiscount());
+		shopCart2.put(p1.getName(), ProductUtil.getPriceWithDiscount(p1));
 		shopCart2.put(p2.getName(), p2.getPriceWithDiscount(0.15));
-		shopCart2.put(p3.getName(), p3.getPriceWithDiscount(0.05));
+		shopCart2.put(p3.getName(), ProductUtil.getPriceWithDiscount(p3, 0.05));
 		
 		shopCart2.forEach((p, v) -> console.println(p + ": " + currencyFormat(v, US)));
 		
-		double total2 = shopCart2.values().stream().mapToDouble(i -> i).sum();
-		console.println(join("Total2: ", currencyFormat(total2, US)));
+		double sum2 = shopCart2.values().stream().mapToDouble(i -> i).sum();
+		console.println(StringUtils.join("Total2: ", currencyFormat(sum2, US)));
 		
 		console.println(Instant.now().atZone(ZONE_ID));
 		console.println(DF_BR.format(Date.from(Instant.now())));
@@ -115,14 +117,14 @@ public class ProductTest {
 		console.println(String.format("Wgt. p1: %.2f%s", p1.getWeight(), SKG));
 		
 		String msgFactureP1 = "Facture p1: ";
-		console.println(join(msgFactureP1, p1.getManufactureDate().toInstant()));
-		console.println(join(msgFactureP1, p1.getManufactureDate()));
-		console.println(join(msgFactureP1, dateFormatted(p1.getManufactureDate())));
+		console.println(StringUtils.join(msgFactureP1, p1.getManufactureDate().toInstant()));
+		console.println(StringUtils.join(msgFactureP1, p1.getManufactureDate()));
+		console.println(StringUtils.join(msgFactureP1, dateFormatted(p1.getManufactureDate())));
 		
 		String msgValidityP1 = "Validity p1: ";
-		console.println(join(msgValidityP1, p1.getValidityDate()));
-		console.println(join(msgValidityP1, p1.getValidityDate().toInstant().atZone(ZONE_ID)));
-		console.println(join(msgValidityP1, dateFormatted(p1.getValidityDate())));
+		console.println(StringUtils.join(msgValidityP1, p1.getValidityDate()));
+		console.println(StringUtils.join(msgValidityP1, p1.getValidityDate().toInstant().atZone(ZONE_ID)));
+		console.println(StringUtils.join(msgValidityP1, dateFormatted(p1.getValidityDate())));
 		
 		NF_BR.setMaximumFractionDigits(1);
 		NF_BR.setMinimumFractionDigits(1);
@@ -130,14 +132,14 @@ public class ProductTest {
 		console.println(String.format("Wgt. p2: %.2f%c", p2.getWeight(), SKG));
 		
 		String msgFactureP2 = "Facture p2: ";
-		console.println(join(msgFactureP2, ofInstant(p2.getManufactureDate().toInstant(), ZONE_ID)));
-		console.println(join(msgFactureP2, p2.getManufactureDate()));
-		console.println(join(msgFactureP2, dateFormatted(p2.getManufactureDate())));
+		console.println(StringUtils.join(msgFactureP2, ofInstant(p2.getManufactureDate().toInstant(), ZONE_ID)));
+		console.println(StringUtils.join(msgFactureP2, p2.getManufactureDate()));
+		console.println(StringUtils.join(msgFactureP2, dateFormatted(p2.getManufactureDate())));
 		
 		String msgValidityP2 = "Validity p2: ";
-		console.println(join(msgValidityP2, p2.getValidityDate()));
-		console.println(join(msgValidityP2, p2.getValidityDate().toInstant().atZone(ZONE_ID)));
-		console.println(join(msgValidityP2, dateFormatted(p2.getValidityDate())));
+		console.println(StringUtils.join(msgValidityP2, p2.getValidityDate()));
+		console.println(StringUtils.join(msgValidityP2, p2.getValidityDate().toInstant().atZone(ZONE_ID)));
+		console.println(StringUtils.join(msgValidityP2, dateFormatted(p2.getValidityDate())));
 		
 		console.close();
 	}

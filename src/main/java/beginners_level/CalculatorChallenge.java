@@ -57,7 +57,7 @@ public class CalculatorChallenge {
 			BigDecimal num = BigDecimal.valueOf(numerator);
 			BigDecimal den = BigDecimal.valueOf(denominator);
 			
-			BigDecimal[] divideAndRemainder = num.divideAndRemainder(den, MathContext.DECIMAL32);
+			BigDecimal[] divideAndRemainder = num.divideAndRemainder(den, MathContext.DECIMAL128);
 			long quotient = divideAndRemainder[0].longValueExact();
 			long remainder = divideAndRemainder[1].longValueExact();
 			

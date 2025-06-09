@@ -32,13 +32,12 @@ public class NumberEx {
 			console.println(num1 + " < " + num2);
 		}
 		
-		MessageFormat msg = new MessageFormat("{0} {1} {2}", Locale.US);
+		MessageFormat msg = new MessageFormat("{0} {1} {2}", Locale.of("pt", "BR"));
 		String str = switch (compare) {
 			case 0 -> msg.format(new Object[] { num1, "==", num2 });
 			case 1 -> msg.format(new Object[] { num1, ">", num2 });
 			case -1 -> msg.format(new Object[] { num1, "<", num2 });
-			default -> throw new IllegalArgumentException(
-					"Unexpected value: " + compare);
+			default -> throw new IllegalArgumentException("Unexpected value: " + compare);
 		};
 		console.println(str);
 		
