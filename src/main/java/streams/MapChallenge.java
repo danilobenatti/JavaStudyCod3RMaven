@@ -1,25 +1,20 @@
 package streams;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.commons.lang3.StringUtils;
 
 public class MapChallenge {
 	
-	static Logger log = LogManager.getLogger();
-	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(MapChallenge.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
-		List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+		List<Integer> numbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		
 		/*
 		 * 1. Number to binary string. ex. 6 -> 110
@@ -29,18 +24,29 @@ public class MapChallenge {
 		
 		Function<Integer, String> toBinary = Integer::toBinaryString;
 		
-		UnaryOperator<String> invert = n -> new StringBuilder().append(n)
-				.reverse().toString();
+		UnaryOperator<String> invert = s -> new StringBuilder(s).reverse().toString();
 		
-		Function<String, Integer> toInteger = n -> Integer.parseInt(n, 2);
+		Function<String, Integer> toInteger = s -> Integer.parseInt(s, 2);
 		
-		log.printf(Level.INFO, "%s",
-				toBinary.andThen(invert).andThen(toInteger).apply(8));
+		console.println(StringUtils.center("1ºEx", 10, '*'));
+		numbers.stream().map(toBinary).forEach(console::println);
 		
+		console.println(StringUtils.center("2ºEx", 10, '*'));
+		numbers.stream().map(toBinary).map(invert).forEach(console::println);
+		
+		console.println(StringUtils.center("3ºEx", 10, '*'));
+		console.println(String.format("Result: %d", toBinary.andThen(invert).andThen(toInteger).apply(8)));
+		
+		console.println(StringUtils.center("4ºEx", 10, '*'));
 		numbers.stream().map(toBinary).map(invert).map(toInteger)
-		.forEach(t -> log.printf(Level.INFO, "Ex1.: %s", t));
+				.forEach(t -> console.print(String.format("%d\s", t)));
 		
+		console.println();
+		
+		console.println(StringUtils.center("5ºEx", 10, '*'));
 		numbers.stream().map(Integer::toBinaryString).map(invert).map(toInteger)
-				.forEach(t -> log.printf(Level.INFO, "Ex2.: %s", t));
+				.forEach(t -> console.print(String.format("%d\s", t)));
+		
+		console.close();
 	}
 }

@@ -1,21 +1,17 @@
 package streams;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.commons.lang3.StringUtils;
 
 public class OthersMethodTest {
 	
-	static Logger log = LogManager.getLogger();
-	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(OthersMethodTest.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
 		List<String> list = new ArrayList<>();
 		list.add("Boo");
@@ -27,25 +23,47 @@ public class OthersMethodTest {
 		list.add("Bar");
 		list.add("Gel");
 		list.add("Bar");
+		list.add("Orn");
 		
-		list.stream().forEach(log::info);
-		log.info("--- <0> ---\n");
+		list.stream().forEach(l -> console.printf("%s\s", l));
+		console.print("\n--- <all> ---\n");
 		
-		list.stream().distinct().forEach(log::info);
-		log.info("--- <1> ---\n");
+		list.stream().distinct().forEach(l -> console.printf("%s\s", l));
+		console.print("\n--- <Distinct> ---\n");
 		
-		list.stream().distinct().skip(2).forEach(log::info);
-		log.info("--- <2> ---\n");
+		list.stream().distinct().skip(2).forEach(l -> console.printf("%s\s", l));
+		console.print("\n--- <Skip> ---\n");
 		
-		list.stream().distinct().limit(2).skip(1).forEach(log::info);
-		log.info("--- <3> ---\n");
+		list.stream().distinct().limit(2).forEach(l -> console.printf("%s\s", l));
+		console.print("\n--- <Limit> ---\n");
 		
-		list.stream().distinct().skip(2).limit(1).forEach(log::info);
-		log.info("--- <4> ---\n");
+		list.stream().distinct().skip(2).limit(1).forEach(l -> console.printf("%s\s", l));
+		console.print("\n--- <Skip and Limit> ---\n");
 		
-		Predicate<String> predicate = l -> l.charAt(0) != 'Y';
-		list.stream().distinct().takeWhile(predicate).forEach(log::info);
-		log.info("--- <5> ---\n");
+		list.stream().distinct().limit(2).skip(1).forEach(l -> console.printf("%s\s", l));
+		console.print("\n--- <Limit and Skip> ---\n");
+		
+		Predicate<String> predicate1 = l -> !l.contains("Y");
+		
+		Predicate<String> predicate2 = l -> l.charAt(0) != 'Y';
+		
+		Predicate<String> predicate3 = l -> l.endsWith("o");
+		
+		Predicate<String> predicate4 = l -> StringUtils.containsIgnoreCase(l, "O");
+		
+		list.stream().distinct().filter(predicate1).forEach(l -> console.printf("%s\s", l));
+		console.print("\n--- <predicate1> ---\n");
+		
+		list.stream().distinct().takeWhile(predicate2).forEach(l -> console.printf("%s\s", l));
+		console.print("\n--- <predicate2> ---\n");
+		
+		list.stream().distinct().filter(predicate3).forEach(l -> console.printf("%s\s", l));
+		console.print("\n--- <predicate3> ---\n");
+		
+		list.stream().distinct().filter(predicate4).forEach(l -> console.printf("%s\s", l));
+		console.print("\n--- <predicate4> ---\n");
+		
+		console.close();
 	}
 	
 }

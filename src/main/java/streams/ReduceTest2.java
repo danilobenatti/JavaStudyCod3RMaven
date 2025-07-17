@@ -1,12 +1,11 @@
 package streams;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.mapping;
-import static java.util.stream.Collectors.toList;
+import static model.Student.student;
 
+import java.io.PrintWriter;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -17,12 +16,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
-
 import model.Student;
+import model.util.PersonUtil;
+import util.ArithmeticUtil;
 
 /**
  * https://docs.oracle.com/javase/tutorial/collections/streams/reduction.html
@@ -34,27 +30,36 @@ import model.Student;
  */
 public class ReduceTest2 {
 	
-	static NumberFormat nf = NumberFormat
+	private static final NumberFormat NUMBER_FORMAT = NumberFormat
 			.getNumberInstance(Locale.of("pt", "BR"));
 	
-	static Logger log = LogManager.getLogger();
+	public Double add(Double x, Double y) {
+		return x + y;
+	}
 	
 	public static void main(String[] args) {
 		
-		nf.setRoundingMode(RoundingMode.HALF_EVEN);
-		nf.setMaximumFractionDigits(1);
+		PrintWriter console = new PrintWriter(System.out, true);
 		
-		Configurator.initialize(ReduceTest2.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		NUMBER_FORMAT.setRoundingMode(RoundingMode.HALF_EVEN);
+		NUMBER_FORMAT.setMaximumFractionDigits(2);
 		
-		Student s1 = new Student("Bia", 'F', 9.5);
-		Student s2 = new Student("Luna", 'F', 9.0);
-		Student s3 = new Student("Ariel", 'F', 7.0);
-		Student s4 = new Student("Gui", 'M', 10.0);
-		Student s5 = new Student("Peter", 'M', 5.0);
-		Student s6 = new Student("Claus", 'M', 7.5);
-		Student s7 = new Student("Ariel", 'F', 6.0);
-		Student s8 = new Student("Joy", 'M', 10.0);
+		Student s1 = student().id(1L).name("Bia").gender('F').score(9.5)
+				.birthDate(LocalDate.now().minusYears(15)).build();
+		Student s2 = student().id(2L).name("Luna").gender('F').score(9)
+				.birthDate(LocalDate.now().minusYears(16)).build();
+		Student s3 = student().id(3L).name("Ariel").gender('F').score(7)
+				.birthDate(LocalDate.now().minusYears(13)).build();
+		Student s4 = student().id(4L).name("Abel").gender('F').score(10)
+				.birthDate(LocalDate.now().minusYears(14)).build();
+		Student s5 = student().id(5L).name("Peter").gender('M').score(5)
+				.birthDate(LocalDate.now().minusYears(15)).build();
+		Student s6 = student().id(6L).name("Claus").gender('M').score(7.5)
+				.birthDate(LocalDate.now().minusYears(16)).build();
+		Student s7 = student().id(7L).name("Muriel").gender('M').score(6)
+				.birthDate(LocalDate.now().minusYears(17)).build();
+		Student s8 = student().id(8L).name("Joy").gender('M').score(10)
+				.birthDate(LocalDate.now().minusYears(18)).build();
 		
 		List<Student> list = Arrays.asList(s1, s2, s3, s4, s5, s6, s7, s8);
 		
@@ -62,87 +67,107 @@ public class ReduceTest2 {
 		
 		Predicate<Student> studentMale = p -> p.getGender() == 'M';
 		
-		Predicate<Student> approved = s -> s.getAverage() >= 7.5;
+		Predicate<Student> approved = s -> s.getScore() >= 7.5;
 		
-		Function<Student, Double> score = Student::getAverage;
+		Function<Student, Double> score = Student::getScore;
 		
 		BinaryOperator<Double> sum = Double::sum;
 		
+		BinaryOperator<Double> add = (x, y) -> x + y;
+		
 		list.stream().filter(approved).map(score).reduce(sum)
-				.ifPresent(log::info);
+				.ifPresent(console::println);
 		
-		log.info(list.stream().filter(approved).count());
+		list.stream().filter(approved).map(score).reduce(add)
+				.ifPresent(console::println);
 		
-		log.info(list.stream().filter(approved)
-				.collect(Collectors.averagingDouble(Student::getAverage)));
+		console.println(list.stream().filter(approved).map(score).reduce(0.0,
+				(a, b) -> a + b));
 		
-		log.info(list.stream().filter(approved)
-				.collect(Collectors.averagingDouble(Student::getAge)));
+		console.println(list.stream().filter(approved).map(score).reduce(0.0,
+				ArithmeticUtil::adder));
 		
-		log.printf(Level.INFO, "%s",
-				list.stream().filter(s -> s.getGender() == 'F')
-						.collect(Collectors.averagingDouble(Student::getAge)));
+		console.println(list.stream().filter(approved).count());
 		
-		log.printf(Level.INFO, "%s",
-				list.stream().filter(s -> s.getGender() == 'M')
-						.collect(Collectors.averagingDouble(Student::getAge)));
+		console.println(list.stream().filter(approved)
+				.collect(Collectors.averagingDouble(Student::getScore)));
 		
-		log.printf(Level.INFO, "Average age for girls: %.2f",
-				list.stream().filter(studentFemale).map(Student::getAge)
+		console.println(list.stream().filter(approved)
+				.collect(Collectors.averagingDouble(PersonUtil::getAge)));
+		
+		console.printf("%s%n", list.stream().filter(s -> s.getGender() == 'F')
+				.collect(Collectors.averagingDouble(PersonUtil::getAge)));
+		
+		console.printf("%s%n", list.stream().filter(s -> s.getGender() == 'M')
+				.collect(Collectors.averagingDouble(PersonUtil::getAge)));
+		
+		console.printf("Average age for girls: %.2f%n",
+				list.stream().filter(studentFemale).map(PersonUtil::getAge)
 						.collect(AvgInteger::new, AvgInteger::accept,
 								AvgInteger::combine)
 						.average());
 		
-		log.printf(Level.INFO, "Average score of girls: %.2f", list.stream()
-				.filter(studentFemale).map(Student::getAverage)
+		console.printf("Average score of girls: %.2f%n", list.stream()
+				.filter(studentFemale).map(Student::getScore)
 				.collect(AvgDouble::new, AvgDouble::accept, AvgDouble::combine)
 				.average());
 		
-		log.printf(Level.INFO, "Average age for boys: %.2f",
-				list.stream().filter(studentMale).map(Student::getAge)
+		console.printf("Average age for boys: %.2f%n",
+				list.stream().filter(studentMale).map(PersonUtil::getAge)
 						.collect(AvgInteger::new, AvgInteger::accept,
 								AvgInteger::combine)
 						.average());
 		
-		log.printf(Level.INFO, "Average score of boys: %.2f", list.stream()
-				.filter(studentMale).map(Student::getAverage)
+		console.printf("Average score of boys: %.2f%n", list.stream()
+				.filter(studentMale).map(Student::getScore)
 				.collect(AvgDouble::new, AvgDouble::accept, AvgDouble::combine)
 				.average());
 		
 		Map<Character, List<String>> namesByGender = list.stream()
 				.collect(Collectors.groupingBy(Student::getGender, Collectors
 						.mapping(Student::getName, Collectors.toList())));
-		namesByGender.entrySet().forEach(s -> log.info(s));
+		
+		namesByGender.entrySet().forEach(console::println);
 		
 		Map<Character, List<String>> namesByGenderSorted = list.stream()
-				.collect(groupingBy(Student::getGender,
-						mapping(s -> s.getName().concat("(" + s.getAge() + ")"),
-								collectingAndThen(toList(), s -> s.stream()
-										.sorted().toList().reversed()))));
-		namesByGenderSorted.entrySet().forEach(s -> log.info(s));
+				.collect(Collectors.groupingBy(Student::getGender,
+						Collectors.mapping(
+								s -> s.getName().concat("(" + s.getAge() + ")"),
+								Collectors
+										.collectingAndThen(Collectors.toList(),
+												s -> s.stream().sorted()
+														.toList()
+														.reversed()))));
+		namesByGenderSorted.entrySet().forEach(console::println);
 		
-		Map<Character, List<Student>> mapStudy = list.stream()
-				.collect(groupingBy(Student::getGender, mapping(
-						s -> new Student(s.getName(), s.getGender(),
-								s.getAverage()),
-						collectingAndThen(toList(), x -> x.stream()
+		Map<Character, List<Student>> mapStudy = list.stream().collect(
+				Collectors.groupingBy(Student::getGender, Collectors.mapping(
+						s -> new Student(s.getId(), s.getName(), s.getGender(),
+								s.getScore(), s.getBirthDate()),
+						Collectors.collectingAndThen(Collectors.toList(), s -> s
+								.stream()
 								.sorted(Comparator.comparing(Student::getName)
 										.thenComparing(Student::getAge)
 										.reversed())
 								.toList()))));
-		mapStudy.entrySet().forEach(s -> log.info(s));
+		
+		mapStudy.entrySet().forEach(console::println);
 		
 		Map<Character, Double> avgAgeByGender = list.stream()
 				.collect(Collectors.groupingBy(Student::getGender,
 						Collectors.averagingInt(Student::getAge)));
-		avgAgeByGender.entrySet().forEach(s -> log.printf(Level.INFO, "%s=%s",
-				s.getKey(), nf.format(s.getValue())));
+		
+		avgAgeByGender.entrySet().forEach(s -> console.printf("%s=%s%n",
+				s.getKey(), NUMBER_FORMAT.format(s.getValue())));
 		
 		Map<Character, Double> avgScoreByGender = list.stream()
 				.collect(Collectors.groupingBy(Student::getGender,
-						Collectors.averagingDouble(Student::getAverage)));
-		avgScoreByGender.entrySet().forEach(s -> log.printf(Level.INFO, "%s=%s",
-				s.getKey(), nf.format(s.getValue())));
+						Collectors.averagingDouble(Student::getScore)));
+		
+		avgScoreByGender.entrySet().forEach(s -> console.printf("%s=%s%n",
+				s.getKey(), NUMBER_FORMAT.format(s.getValue())));
+		
+		console.close();
 	}
 	
 }

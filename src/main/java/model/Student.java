@@ -18,13 +18,22 @@ import util.Imc;
 @SuperBuilder(builderMethodName = "student")
 public class Student extends Person {
 	
-	private double average;
+	private double score;
 	private boolean goodBehavior;
 	
-	public Student(String name, Character gender, double average) {
+	public Student(String name, Character gender, double score) {
 		setName(name);
 		setGender(gender);
-		setAverage(average);
+		setScore(score);
+	}
+	
+	public Student(Long id, String name, Character gender, double score,
+			LocalDate birthDate) {
+		setId(id);
+		setName(name);
+		setGender(gender);
+		setScore(score);
+		setBirthDate(birthDate);
 	}
 	
 	public int getAge() {
@@ -35,17 +44,19 @@ public class Student extends Person {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Student [");
+		builder.append(super.getId());
+		builder.append(", ");
 		builder.append(super.getName());
 		builder.append(", ");
 		builder.append(super.getGender());
 		builder.append(", ");
 		builder.append(PersonUtil.getAgeWithSymbol(this));
 		builder.append(", ");
-		builder.append(this.average);
+		builder.append(this.score);
 		builder.append(", ");
 		builder.append(this.goodBehavior);
 		builder.append(", ");
-		builder.append(Imc.imcByGender(this));
+		builder.append(Imc.bmiByGender(this));
 		builder.append("]");
 		return builder.toString();
 	}
@@ -54,7 +65,7 @@ public class Student extends Person {
 			@NonNull Character gender, float weight, float height,
 			@NonNull LocalDate birthDate, LocalDate deathDate) {
 		super(id, name, gender, weight, height, birthDate, deathDate);
-		this.average = getAverage();
+		this.score = getScore();
 		this.goodBehavior = isGoodBehavior();
 	}
 

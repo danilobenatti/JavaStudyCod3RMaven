@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import model.Person;
 import model.Student;
 import model.util.PersonUtil;
 
@@ -40,23 +39,25 @@ public class StartWithStream {
 		Instant instant = new GregorianCalendar(timeZone, aLocale).toInstant();
 		Date date = Date.from(instant);
 		
-		console.printf("%s%n", dfPtBR.format(date));
-		console.printf("%s%n", dfEnUS.format(date));
-		console.printf("%s%n", zonedDateTime.getChronology().getCalendarType());
+		console.println(dfPtBR.format(date));
+		console.println(dfEnUS.format(date));
+		console.println(zonedDateTime.getChronology().getCalendarType());
 		
-		Person p = new Student(1L, "Peter Parker", 'M', 78.8F, 1.73F,
+		Student p = new Student(1L, "Peter Parker", 'M', 78.8F, 1.73F,
 				LocalDate.now().minusYears(17), null);
 		
-		List<Object> list = Arrays.asList("Tue", 'M', 1, 1F, 1.0E1, date, p,
-				PersonUtil.getAgeWithSymbol(p));
+		List<Object> list = Arrays.asList(p.getName(), p.getGender(), 1, 1F,
+				1.0E1, date, p, PersonUtil.getSymbol(p));
 		
 		Iterator<Object> iterator = list.iterator();
+		
 		while (iterator.hasNext()) {
-			console.println(StringUtils.join("with While: ", iterator.next()));
+			console.println(
+					StringUtils.join("with While: ", msg(iterator.next())));
 		}
 		
 		for (Object object : list) {
-			console.println(StringUtils.join("with For: ", msg(object)));
+			console.println(String.join(" ", "with For:", msg(object)));
 		}
 		
 		Stream<Object> stream = list.stream();
@@ -67,10 +68,11 @@ public class StartWithStream {
 		
 		list.iterator().forEachRemaining(o -> console.println(msg(o)));
 		
+		console.close();
 	}
 	
 	static String msg(Object obj) {
-		return new StringBuilder().append(obj).append(" -> ")
-				.append(obj.getClass().getSimpleName()).toString();
+		return StringUtils.joinWith(StringUtils.SPACE, obj, "->",
+				obj.getClass().getSimpleName());
 	}
 }

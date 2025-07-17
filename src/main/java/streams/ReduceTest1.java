@@ -1,6 +1,9 @@
 package streams;
 
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -13,30 +16,38 @@ public class ReduceTest1 {
 		
 		PrintWriter console = new PrintWriter(System.out, true);
 		
-		List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+		List<Number> nums = Arrays.asList(1, 2.2, 3, 4, 5.5, 6, 7, 8, 9.9, 10);
 		
-		BinaryOperator<Integer> sum = (x, n) -> x + n;
+		BinaryOperator<Number> sum = (a, b) -> {
+			MathContext mc = new MathContext(5, RoundingMode.HALF_EVEN);
+			return BigDecimal.valueOf(a.doubleValue())
+					.add(BigDecimal.valueOf(b.doubleValue()), mc);
+		};
 		
-		DoubleBinaryOperator multi = (x, n) -> x * n;
+		DoubleBinaryOperator multi = (a, b) -> a * b;
 		
-		DoubleBinaryOperator div = (x, n) -> x / n;
+		DoubleBinaryOperator div = (a, b) -> a / b;
 		
-		Optional<Integer> total = numbers.parallelStream().reduce(sum);
-		console.println(total.isPresent() ? total.get() : 0);
+		Optional<Number> total = nums.parallelStream().reduce(sum);
+		console.println("Sum: " + (total.isPresent() ? total.get() : 0));
 		
-		console.println(numbers.stream().reduce(100, sum));
-		console.println(numbers.parallelStream().reduce(100, sum));
+		Number add1 = nums.parallelStream().reduce(sum).get();
+		console.println("Add1: " + add1);
 		
-		numbers.stream().filter(n -> n % 2 == 0).reduce(sum)
+		Number add2 = nums.stream().reduce(1000, sum);
+		console.println("Add2: " + add2);
+		
+		
+		nums.stream().filter(n -> n.intValue() % 2 == 0).reduce(sum)
 				.ifPresent(console::println);
 		
-		numbers.stream().filter(n -> n % 2 != 0).reduce(sum)
+		nums.stream().filter(n -> n.intValue() % 2 != 0).reduce(sum)
 				.ifPresent(console::println);
 		
-		numbers.stream().mapToDouble(Number::doubleValue).filter(n -> n <= 2)
+		nums.stream().mapToDouble(Number::doubleValue).filter(n -> n <= 3)
 				.reduce(div).ifPresent(console::println);
 		
-		numbers.stream().mapToDouble(Number::doubleValue).filter(n -> n >= 2)
+		nums.stream().mapToDouble(Number::doubleValue).filter(n -> n > 3 && n < 10)
 				.reduce(multi).ifPresent(console::println);
 		
 		console.close();

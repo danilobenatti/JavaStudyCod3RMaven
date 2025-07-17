@@ -1,44 +1,47 @@
 package streams;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
-
 public class StreamsBegin {
-	
-	static Logger log = LogManager.getLogger();
 	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(StreamsBegin.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
-		Consumer<Object> print = System.out::print;
+		Consumer<Object> println = System.out::println;
 		
-		Stream<String> langsBackEnd = Stream.of("Java ", "C# ", "JS ", "PHP\n");
-		langsBackEnd.forEach(print);
+		Stream<String> langsBackEnd = Stream.of("Java ", "C# ", "JS ", "PHP");
+		langsBackEnd.forEach(println);
+		console.println();
 		
 		Stream.of("Go", "Ruby on Rails", "Angular", "Node.js")
-				.forEach(s -> log.printf(Level.INFO, ">>> %s", s));
+				.forEach(s -> console.printf(">>> %s%n", s));
+		console.println();
 		
-		String[] langsFrontEnd = { "HTML ", "CSS ", "TypeScript ", "JS\n" };
+		String[] langsFrontEnd = { "HTML ", "CSS ", "TypeScript ", "JS" };
 		
-		Stream.of(langsFrontEnd).forEach(print);
-		Arrays.stream(langsFrontEnd).forEach(print);
-		Arrays.stream(langsFrontEnd, 1, 3).forEach(print);
+		Stream.of(langsFrontEnd).forEach(println);
+		console.println();
+		
+		Arrays.stream(langsFrontEnd).forEach(println);
+		console.println();
+		
+		Arrays.stream(langsFrontEnd, 1, 3).forEach(println);
+		console.println();
 		
 		List<String> othersLangs = Arrays.asList("Assembly ", "Basic ", "C ",
-				"C++ ", "Cobol ", "Fortran\n");
+				"C++ ", "Cobol ", "Fortran");
 		
-		othersLangs.stream().forEach(print);
-		othersLangs.parallelStream().forEach(print);
+		othersLangs.stream().forEach(println);
+		console.println();
 		
+		othersLangs.parallelStream().forEach(println);
+		
+		console.close();
 	}
 	
 }

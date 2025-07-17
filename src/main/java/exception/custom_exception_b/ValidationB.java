@@ -17,10 +17,10 @@ public class ValidationB {
 		if (student.getName() == null || student.getName().isBlank()) {
 			throw new EmptyStringException("name");
 		}
-		if (student.getAverage() < 0 || student.getAverage() > 10) {
-			throw new OutOfRangeException(student.getAverage(), 0, 10);
+		if (student.getScore() < 0 || student.getScore() > 10) {
+			throw new OutOfRangeException(student.getScore(), 0, 10);
 		}
-		if (student.getAverage() < 0 || student.getAverage() > 10) {
+		if (student.getScore() < 0 || student.getScore() > 10) {
 			throw new OutRangeNumberException("average");
 		}
 	}

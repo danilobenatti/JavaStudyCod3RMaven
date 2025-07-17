@@ -1,5 +1,6 @@
 package streams;
 
+import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -7,23 +8,18 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
 
 import model.Product;
+import model.util.ProductUtil;
 
 public class FilterChallenge {
 	
 	static NumberFormat cf = NumberFormat.getCurrencyInstance();
 	static NumberFormat pf = NumberFormat.getPercentInstance();
-	static Logger log = LogManager.getLogger();
 	
 	public static void main(String[] args) {
 		
-		Configurator.initialize(FilterTest.class.getName(),
-				"./src/main/java/util/log4j2.properties");
+		PrintWriter console = new PrintWriter(System.out, true);
 		
 		Product p1 = new Product("Lapis", 1.99, 0.35, 0, 0.001f);
 		Product p2 = new Product("Notebook", 4899.89, 0.32, 0, 2.5f);
@@ -37,19 +33,19 @@ public class FilterChallenge {
 		
 		Predicate<Product> bigDiscount = p -> p.getDiscount() >= 0.3;
 		
-		Predicate<Product> freeShipping = p -> Double
-				.compare(p.getShippingCost(), 0.0) == 0;
+		Predicate<Product> freeShipping = p -> Double.compare(p.getShippingCost(), 0) == 0;
 		
-		Predicate<Product> relevantPrice = p -> p.getPriceWithDiscount() >= 500;
+		Predicate<Product> relevantPrice = p -> ProductUtil.getPriceWithDiscount(p) >= 500;
 		
-		Function<Product, String> promotion = p -> StringUtils.joinWith(", ",
+		Function<Product, String> promotion = p -> StringUtils.joinWith(" ",
 				p.getName(), cf.format(p.getPrice()), "discount of",
 				pf.format(p.getDiscount()), "promo price",
 				cf.format(p.getPriceWithDiscount()));
 		
 		products.stream().filter(bigDiscount).filter(freeShipping)
-				.filter(relevantPrice).map(promotion)
-				.forEach(p -> log.printf(Level.INFO, "%s", p));
+				.filter(relevantPrice).map(promotion).forEach(console::println);
+		
+		console.close();
 	}
 	
 }
