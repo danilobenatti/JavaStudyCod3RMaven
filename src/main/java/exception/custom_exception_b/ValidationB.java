@@ -10,7 +10,9 @@ import model.Student;
 public class ValidationB {
 	
 	public static void validStudent(Student student)
-			throws EmptyStringException, OutRangeNumberException {
+			throws EmptyStringException, OutRangeNumberException,
+			OutOfRangeException {
+		
 		if (student == null) {
 			throw new IllegalArgumentException("Student is null!");
 		}
@@ -21,7 +23,7 @@ public class ValidationB {
 			throw new OutOfRangeException(student.getScore(), 0, 10);
 		}
 		if (student.getScore() < 0 || student.getScore() > 10) {
-			throw new OutRangeNumberException("average");
+			throw new OutRangeNumberException("score");
 		}
 	}
 }

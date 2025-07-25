@@ -9,8 +9,10 @@ import java.util.StringJoiner;
 
 import org.apache.commons.lang3.StringUtils;
 
+import lombok.NoArgsConstructor;
 import model.Person;
 
+@NoArgsConstructor
 public class PersonUtil {
 	
 	public static final Locale LOCALE = Locale.getDefault();

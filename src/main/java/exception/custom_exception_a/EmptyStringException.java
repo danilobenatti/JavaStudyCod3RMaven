@@ -5,15 +5,15 @@ import org.apache.commons.lang3.StringUtils;
 @SuppressWarnings("serial")
 public class EmptyStringException extends RuntimeException {
 	
-	private final String attributeName;
+	private final String attribute;
 	
-	public EmptyStringException(String attributeName) {
-		this.attributeName = attributeName;
+	public EmptyStringException(String attribute) {
+		this.attribute = attribute;
 	}
 	
 	@Override
 	public String getMessage() {
 		return StringUtils.join("Attribute '%s' is empty")
-				.formatted(this.attributeName);
+				.formatted(this.attribute);
 	}
 }

@@ -5,15 +5,15 @@ import org.apache.commons.lang3.StringUtils;
 @SuppressWarnings("serial")
 public class OutRangeNumberException extends Exception {
 	
-	private final String attributeName;
+	private final String attribute;
 	
-	public OutRangeNumberException(String attributeName) {
-		this.attributeName = attributeName;
+	public OutRangeNumberException(String attribute) {
+		this.attribute = attribute;
 	}
 	
 	@Override
 	public String getMessage() {
 		return StringUtils.join("Attribute %s is out range number")
-				.formatted(this.attributeName);
+				.formatted(this.attribute);
 	}
 }
