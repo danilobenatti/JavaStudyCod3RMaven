@@ -41,7 +41,6 @@ public class NumberEx {
 		};
 		console.println(str);
 		
-		console.flush();
 		console.close();
 	}
 	

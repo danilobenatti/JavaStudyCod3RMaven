@@ -19,8 +19,11 @@ class PairsTest {
 		result.add(1, "Gaya");
 		result.add(2, "Rebecca");
 		
-		assertEquals("Gaya", result.getValue(1));
+		assertNotEquals("Mary", result.getValue(1));
 		assertNotEquals("Peter", result.getValue(2));
+		assertEquals("Gaya", result.getValue(1));
+		assertEquals("Rebecca", result.getValue(2));
+		assertEquals("Gui", result.getValue(3));
 	}
 	
 }

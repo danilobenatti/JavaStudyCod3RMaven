@@ -49,7 +49,7 @@ public class OthersMethodTest {
 		
 		Predicate<String> predicate3 = l -> l.endsWith("o");
 		
-		Predicate<String> predicate4 = l -> StringUtils.containsIgnoreCase(l, "O");
+		Predicate<String> predicate4 = l -> StringUtils.containsAny(l, 'O', 'o');
 		
 		list.stream().distinct().filter(predicate1).forEach(l -> console.printf("%s\s", l));
 		console.print("\n--- <predicate1> ---\n");

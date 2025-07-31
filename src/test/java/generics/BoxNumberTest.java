@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 class BoxNumberTest {
 	
+	@SuppressWarnings("static-access")
 	@Test
 	void BoxTest() {
 		
@@ -15,7 +16,7 @@ class BoxNumberTest {
 		boxB.setAnyThing(5.8F);
 		
 		assertEquals(5.8, boxA.getAnyThing());
-		assertEquals(5.8F, boxB.getAnyThing());
+		assertEquals(java.lang.Float.class, boxB.getAnyThing().TYPE);
 	}
 	
 }

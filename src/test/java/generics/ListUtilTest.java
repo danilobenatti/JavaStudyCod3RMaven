@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class ListUtilTest {
 	
 	List<String> langs = Arrays.asList("Java", "C#", "JavaScript", "PHP");
-	List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+	List<Number> numbers = Arrays.asList(1.1, 2L, 3.3F, 4, 5.5, 6F);
 	
 	@Test
 	void GetLast1Test() {
@@ -18,8 +18,8 @@ class ListUtilTest {
 		String lang = (String) ListUtil.getLast1(langs);
 		assertEquals("PHP", lang);
 		
-		Integer number = (Integer) ListUtil.getLast1(numbers);
-		assertEquals(6, number);
+		Number number = (Number) ListUtil.getLast1(numbers);
+		assertEquals(Float.valueOf(6), number);
 	}
 	
 	@Test
@@ -28,8 +28,8 @@ class ListUtilTest {
 		String lang = ListUtil.getLast2(langs);
 		assertEquals("PHP", lang);
 		
-		Integer number = ListUtil.getLast2(numbers);
-		assertEquals(6, number);
+		Number number = ListUtil.getLast2(numbers);
+		assertEquals(6F, number);
 	}
 	
 }

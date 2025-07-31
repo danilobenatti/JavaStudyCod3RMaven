@@ -13,7 +13,6 @@ class BoxWithSomeThingsTest {
 		bwst.setThing(2.3);
 		
 		assertThrows(ClassCastException.class, () -> {
-			@SuppressWarnings("unused")
 			Integer thing = (Integer) bwst.getThing();
 		});
 		

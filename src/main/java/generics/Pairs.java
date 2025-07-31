@@ -11,18 +11,22 @@ public class Pairs<K extends Number, V> {
 	public void add(K key, V value) {
 		if (key == null)
 			return; // conditional exit of method
-		Pair<K, V> pair = new Pair<>(key, value);
-		if (this.items.contains(pair)) {
-			this.items.remove(pair);
-		}
-		this.items.add(pair);
+		
+		Pair<K, V> newPair = new Pair<>(key, value);
+		
+		if (this.items.contains(newPair))
+			this.items.remove(newPair);
+		
+		this.items.add(newPair);
 	}
 	
 	public V getValue(K key) {
 		if (key == null)
 			return null;
+		
 		Optional<Pair<K, V>> optional = this.items.stream()
 				.filter(p -> key.equals(p.getKey())).findFirst();
+		
 		return optional.isPresent() ? optional.get().getValue() : null;
 	}
 	
