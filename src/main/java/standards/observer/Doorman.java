@@ -20,8 +20,9 @@ public class Doorman {
 				System.out.println("Birthday person it arrived?");
 				value = scanner.next();
 				if (value.equalsIgnoreCase("yes")) {
-					EventBirthdayPartyArrival event = new EventBirthdayPartyArrival(
-							new Date());
+					// Create the event.
+					EventBirthdayPartyArrival event = new EventBirthdayPartyArrival(new Date());
+					// Notify observers.
 					observers.stream().forEach(o -> o.itArrived(event));
 					value = "exit";
 				} else {
