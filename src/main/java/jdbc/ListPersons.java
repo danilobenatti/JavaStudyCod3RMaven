@@ -1,7 +1,5 @@
 package jdbc;
 
-import static model.Person.person;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,38 +8,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Person;
+import util.ConnectionDatabase;
 
 public class ListPersons {
 	
 	public static void main(String[] args) {
 		
-		List<Person> list = new ArrayList<>();
+		List<Person> persons = new ArrayList<>();
 		
 		String sql = """
-			SELECT `p`.* FROM `javastudy`.`tbl_person` AS `p`
+			SELECT `p`.* FROM `javastudy`.`tbl_person` AS `p` LIMIT 0, 10
 			""";
 		
-		try (Connection conn = ConnectionFactory.getConnection();
+		try (Connection conn = ConnectionDatabase.getConnection();
 				Statement stmt = conn.createStatement()) {
-			ResultSet set = stmt.executeQuery(sql);
-			while (set.next()) {
-				list.add(person().id(set.getLong("id"))
-						.name(set.getString("col_firstname"))
-						.gender(set.getString("col_gender").charAt(0))
-						.weight(set.getFloat("col_weight"))
-						.height(set.getFloat("col_height"))
-						.birthDate(set.getDate("col_borndate") != null
-								? set.getDate("col_borndate").toLocalDate()
-								: null)
-						.deathDate(set.getDate("col_deathdate") != null
-								? set.getDate("col_deathdate").toLocalDate()
+			ResultSet result = stmt.executeQuery(sql);
+			while (result.next()) {
+				
+				Person p = new Person(result.getLong("id"),
+						result.getString("col_firstname"),
+						result.getString("col_gender").charAt(0),
+						result.getFloat("col_weight"),
+						result.getFloat("col_height"),
+						result.getDate("col_borndate").toLocalDate(),
+						result.getDate("col_deathdate") != null
+								? result.getDate("col_deathdate").toLocalDate()
+								: null);
+				persons.add(p);
+				
+				persons.add(Person.person().id(result.getLong("id"))
+						.name(result.getString("col_firstname"))
+						.gender(result.getString("col_gender").charAt(0))
+						.weight(result.getFloat("col_weight"))
+						.height(result.getFloat("col_height"))
+						.birthDate(result.getDate("col_borndate").toLocalDate())
+						.deathDate(result.getDate("col_deathdate") != null
+								? result.getDate("col_deathdate").toLocalDate()
 								: null)
 						.build());
 			}
-			list.forEach(System.out::println);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		persons.forEach(System.out::println);
 		
 	}
 	

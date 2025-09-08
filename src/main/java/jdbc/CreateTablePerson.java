@@ -8,7 +8,7 @@ public class CreateTablePerson {
 	
 	public static void main(String[] args) {
 		
-		String sql = """
+		String ddl = """
 				CREATE TABLE IF NOT EXISTS `javastudy`.`tbl_person`(
 				`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 				`col_firstname` VARCHAR(150) NOT NULL,
@@ -23,7 +23,7 @@ public class CreateTablePerson {
 		
 		try (Connection conn = ConnectionFactory.getConnection();
 				Statement stmt = conn.createStatement()) {
-			stmt.execute(sql);
+			stmt.execute(ddl);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

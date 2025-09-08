@@ -16,22 +16,23 @@ public class ConnectionFactory {
 	
 	public static Connection getConnection() {
 		
-		Properties prop = new Properties();
+		Properties props = new Properties();
 		
 		try (FileInputStream inputStream = new FileInputStream(
 				new File("./src/main/java/util/connection.properties"))) {
 /**			InputStream inputStream = ConnectionDatabase.class
 					.getResourceAsStream("./connection.properties"); **/
-			prop.load(inputStream);
+			props.load(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		try {
-			return DriverManager.getConnection(prop.getProperty("db.url"),
-					prop.getProperty("db.username"),
-					prop.getProperty("db.password"));
-		} catch (SQLException e) {
+			Class.forName(props.getProperty("db.driver"));
+			return DriverManager.getConnection(props.getProperty("db.url"),
+					props.getProperty("db.username"),
+					props.getProperty("db.password"));
+		} catch (SQLException | ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 		

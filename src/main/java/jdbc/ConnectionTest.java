@@ -13,15 +13,21 @@ public class ConnectionTest {
 		/**
 		 * https://dev.mysql.com/doc/connector-j/en/connector-j-connp-props-security.html
 		 */
-		final String url = "jdbc:mysql://localhost?verifyServerCertificate=false&amp;useSSL=true&amp;sslMode=PREFERRED&amp;useTimezone=true&amp;serverTimezone=America/Sao_Paulo&amp;useUnicode=true&amp;connectionCollation=utf8_bin&amp;characterSetResults=utf8&amp;characterEncoding=utf-8";
-		final String user = "root";
-		final String pass = "123456";
+		final String URL = "jdbc:mysql://localhost?";
+		URL.concat(String.join("&", "verifyServerCertificate=false",
+				"useSSL=true", "sslMode=PREFERRED", "useUnicode=true",
+				"useTimezone=true", "serverTimezone=America/Sao_Paulo",
+				"connectionCollation=utf8_bin", "characterSetResults=utf8",
+				"characterEncoding=utf-8"));
+		
+		final String user = System.getenv("username");
+		final String pass = System.getenv("password");
 		
 		Properties prop = new Properties();
 		prop.put("user", user);
 		prop.put("password", pass);
 		
-		try (Connection connection = DriverManager.getConnection(url, prop);
+		try (Connection connection = DriverManager.getConnection(URL, prop);
 				Statement stmt = connection.createStatement()) {
 			stmt.execute("CREATE DATABASE IF NOT EXISTS `javastudy`");
 		} catch (SQLException e) {

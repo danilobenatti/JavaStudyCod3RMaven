@@ -1,10 +1,14 @@
 -- Project Study by Cod3R
-CREATE DATABASE IF NOT EXISTS `javastudy`;
+CREATE DATABASE IF NOT EXISTS `javastudy`
+CHARACTER SET `utf8mb4`
+COLLATE `utf8mb4_unicode_ci`;
+
 SELECT schema_name
   FROM information_schema.schemata
 WHERE schema_name = 'javastudy';
 
 DROP TABLE IF EXISTS `javastudy`.`tbl_person`;
+
 TRUNCATE TABLE `javastudy`.`tbl_person`;
 
 CREATE TABLE IF NOT EXISTS `javastudy`.`tbl_person`(
@@ -17,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `javastudy`.`tbl_person`(
   `col_deathdate` DATE NULL
 );
 
-SELECT date_add(date_sub(DATE(now()), interval(25) year), interval(5) month), DATE(now());
+SELECT date_add(date_sub(DATE(now()), interval(25) year), interval(5) month) AS `calc`, DATE(now()) AS `now`;
 
 INSERT INTO `javastudy`.`tbl_person` 
   (`id`, 
@@ -28,13 +32,18 @@ INSERT INTO `javastudy`.`tbl_person`
    `col_borndate`, 
    `col_deathdate`) 
   VALUES
-   (NULL, 'Peter', 'M', 89.5, 1.83, DATE('1999-05-01'), NULL), 
+   (NULL, 'Henry', 'M', 89.5, 1.83, DATE('1999-05-01'), NULL), 
    (NULL, 'Nany', 'F', 65.5, 1.74, DATE('1987-10-25'), NULL), 
-   (NULL, 'John', 'M', 75.0, 1.70, DATE('2004-02-15'), NULL);
+   (NULL, 'John', 'M', 75.0, 1.70, DATE('2004-02-15'), NULL),
+   (NULL, 'Emma', 'F', 74.6, 1.62, DATE('1992-03-30'), NULL);
 
 SELECT * FROM `javastudy`.`tbl_person`;
+SELECT `p`.* FROM `javastudy`.`tbl_person` AS `p` LIMIT 0, 10;
+SELECT * FROM `javastudy`.`tbl_person` AS `p` WHERE `p`.`col_firstname` LIKE '%N';
 SELECT * FROM `javastudy`.`tbl_person` AS `p` WHERE `p`.`col_firstname` LIKE '%N%';
 SELECT * FROM `javastudy`.`tbl_person` AS `p` WHERE `p`.`col_firstname` NOT LIKE '%N%';
 
 DELETE FROM `javastudy`.`tbl_person`
 WHERE 1;
+
+DELETE FROM `javastudy`.`tbl_person` AS `p` WHERE YEAR(`p`.`col_deathdate`) <= 2025;

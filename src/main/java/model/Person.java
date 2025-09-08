@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import lombok.AllArgsConstructor;
@@ -47,8 +48,10 @@ public class Person {
 	@NonNull
 	private LocalDate birthDate;
 	
+	private static final ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
+	
 	public void setBirthDate(LocalDate date) {
-		if (date.compareTo(LocalDate.now()) <= 0)
+		if (date.compareTo(LocalDate.now(zoneId)) <= 0)
 			this.birthDate = date;
 	}
 	

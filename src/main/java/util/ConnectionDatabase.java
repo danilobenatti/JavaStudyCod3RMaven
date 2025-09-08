@@ -1,8 +1,5 @@
 package util;
 
-import static org.apache.commons.lang3.StringUtils.join;
-import static org.apache.commons.lang3.StringUtils.joinWith;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,41 +25,47 @@ public class ConnectionDatabase {
 	private static final String ENCODING = "useUnicode=true;connectionCollation=utf8_bin;characterSetResults=utf8;characterEncoding=UTF-8";
 	private static final String TIMEZONE = "useTimezone=true;serverTimezone=America/Sao_Paulo";
 	
-	private static BasicDataSource dataSource;
+	private static BasicDataSource bds;
 	
 	private static Properties getProperties() {
-		Properties prop = new Properties();
+		Properties props = new Properties();
 		try (FileInputStream input = new FileInputStream(
 				new File("./src/main/java/util/connection.properties"))) {
-			prop.load(input);
+			props.load(input);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return prop;
+		return props;
 	}
 	
 	public static BasicDataSource getDataSource() {
-		Properties prop = getProperties();
-		if (dataSource == null || dataSource.isClosed()) {
-			dataSource = new BasicDataSource();
-			dataSource.setUrl(prop.getProperty("db.url"));
-			dataSource.setDefaultSchema(prop.getProperty("db.schema"));
-			dataSource.setUsername(prop.getProperty("db.username"));
-			dataSource.setPassword(prop.getProperty("db.password"));
-			dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-			dataSource.setConnectionProperties(joinWith(";", USESSL, SSLMODE,
+		Properties props = getProperties();
+		if (bds == null || bds.isClosed()) {
+			bds = new BasicDataSource();
+			bds.setUrl(props.getProperty("db.url"));
+			bds.setDefaultSchema(props.getProperty("db.schema"));
+			bds.setUsername(props.getProperty("db.username"));
+			bds.setPassword(props.getProperty("db.password"));
+			bds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+			bds.setConnectionProperties(String.join(";", USESSL, SSLMODE,
 					CERTIFICATE, ENCODING, TIMEZONE));
-			dataSource.setDefaultAutoCommit(true);
-			dataSource.setInitialSize(3);
-			dataSource.setMinIdle(3);
-			dataSource.setMaxIdle(8);
-			dataSource.setMaxTotal(8);
+			bds.setDefaultAutoCommit(true);
+			bds.setInitialSize(3);
+			bds.setMinIdle(3);
+			bds.setMaxIdle(8);
+			bds.setMaxTotal(8);
 		}
-		log.info(() -> join("Start conn: ", dataSource.getDefaultSchema()));
-		return dataSource;
+		log.info(() -> "Start conn: ".concat(bds.getDefaultSchema()));
+		return bds;
 	}
 	
-	public static Connection getDataSourceConnection() throws SQLException {
-		return getDataSource().getConnection();
+	public static Connection getConnection() {
+		try {
+			return getDataSource().getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
+	
 }
